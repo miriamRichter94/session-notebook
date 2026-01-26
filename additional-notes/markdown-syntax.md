@@ -360,16 +360,59 @@ Connect to other pages and embed visuals.
 
 ### Reference-Style Links (Advanced)
 
-**Syntax:**
+**What it does:** Lets you reuse the same URL multiple times while keeping your text clean and readable.
+
+**The problem it solves:**
+
+Imagine you're writing documentation and need to link to the same website multiple times. With normal links:
 
 ```markdown
-[Link text][reference-id]
-[Another link][reference-id]
-
-[reference-id]: https://example.com "Optional title"
+Check out the [Git documentation](https://git-scm.com/doc) for more info.
+You can also read [this guide](https://git-scm.com/doc) about branches.
+The [official docs](https://git-scm.com/doc) have great examples.
 ```
 
-**When to use:** When you're using the same URL multiple times—keeps the text readable and URLs at the bottom.
+That URL is repeated three times—messy, hard to read, and annoying to update if the URL changes.
+
+**Reference-style fix:**
+
+```markdown
+Check out the [Git documentation][git-docs] for more info.
+You can also read [this guide][git-docs] about branches.
+The [official docs][git-docs] have great examples.
+
+[git-docs]: https://git-scm.com/doc
+```
+
+**How it works:**
+
+1. `[Link text][reference-id]` - The visible link text + a reference ID in brackets
+2. `[reference-id]: https://actual-url.com` - At the bottom of your file, define what that reference ID points to
+
+When rendered, all three links point to the same URL, but you only wrote the URL once.
+
+**Another example:**
+
+```markdown
+I use [VS Code][vscode] for editing and [GitHub][gh] for version control.
+Both [VS Code][vscode] and [GitHub][gh] are essential tools.
+
+[vscode]: https://code.visualstudio.com
+[gh]: https://github.com
+```
+
+**Why use it:**
+
+- **Cleaner writing** - Text stays readable without long URLs breaking sentences
+- **Easy updates** - Change the URL once at the bottom, all links update automatically
+- **Reusable references** - Use the same reference ID throughout your document
+
+**When NOT to use it:**
+
+- If you're only linking to a URL once → just use regular `[text](url)` format
+- If you want the URL visible right there → regular format is clearer
+
+**Summary:** Optional advanced technique for repeated URLs. Most of the time regular `[text](url)` links are fine—this is a power-user option for specific situations.
 
 ---
 
@@ -467,6 +510,19 @@ git status
 git add .
 ```
 
+```html
+<div class="container">
+  <h1>Hello World</h1>
+</div>
+```
+
+```css
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+```
+
 **Common language identifiers:**
 
 - `bash` - Shell commands
@@ -549,19 +605,11 @@ Extra tools for special cases.
 
 **Syntax:**
 
-```markdown
----
+**Syntax:**
 
-Three dashes
-
----
-
-Three asterisks
-
----
-
-Three underscores
-```
+- `---` (three dashes)
+- `***` (three asterisks)
+- `___` (three underscores)
 
 **Renders as:**
 
@@ -724,97 +772,3 @@ You can use it for notes to yourself:
 | `\| table \|`       | Creates table               |
 
 ---
-
-## Common Use Cases
-
-### Writing Session Notes
-
-````markdown
-# Session 5: Git Basics
-
-## What We Learned
-
-- Creating branches
-- Committing changes
-- Pushing to remote
-
-## Commands Used
-
-```bash
-git switch -c feature-branch
-git add .
-git commit -m "Add feature"
-```
-````
-
-## Next Steps
-
-- [ ] Practice branching
-- [ ] Read Git documentation
-
-`````
-
-### Documenting Code
-````markdown
-## Function: calculateTotal
-
-**Purpose:** Calculates the total price including tax.
-
-**Syntax:**
-```javascript
-calculateTotal(price, taxRate)
-`````
-
-**Parameters:**
-
-- `price` (number) - Base price before tax
-- `taxRate` (number) - Tax rate as decimal (e.g., 0.08 for 8%)
-
-**Returns:** Total price with tax applied
-
-````
-
-### Creating README Files
-```markdown
-# Project Name
-
-Brief description of what this project does.
-
-## Installation
-```bash
-npm install project-name
-```
-
-## Usage
-Explain how to use it here.
-
-## Features
-- Feature one
-- Feature two
-
-## License
-MIT
-```
-
----
-
-## Pro Tips
-
-1. **Preview as you write** - Use VS Code's Markdown preview (`Ctrl+Shift+V` or `Cmd+Shift+V`) to see how it renders.
-
-2. **Blank lines matter** - When in doubt, add a blank line between elements. It usually fixes rendering issues.
-
-3. **Consistent formatting** - Pick one style (like `*` vs `-` for bullets) and stick with it in a document.
-
-4. **Use code blocks for commands** - Wrap terminal commands in ` ```bash ` blocks so they're clearly distinguished.
-
-5. **Alt text for images** - Always include meaningful alt text—helps if images don't load and improves accessibility.
-
-6. **Test on GitHub** - GitHub's Markdown renderer can be slightly different from local preview. Check your notes after pushing.
-
-7. **Keep it simple** - Don't over-format. Markdown's strength is readability—even the raw source should be easy to read.
-
----
-
-*Last updated: January 2025*
-````
