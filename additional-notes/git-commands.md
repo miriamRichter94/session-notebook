@@ -194,7 +194,7 @@ git clone <shh-repository-link>
 **What it does:** Links your local repo to a remote repo (like on GitHub).
 
 ```bash
-git remote add origin https://github.com/username/repo-name.git
+git remote add origin <shh-repository-link>
 ```
 
 **When to use it:** When you've created a local repo and want to push it to GitHub for the first time.
@@ -236,7 +236,13 @@ git pull origin branch-name   # Pull from specific branch
 
 ```bash
 git push
-git push origin branch-name   # Push specific branch
+```
+
+```bash
+git push origin branch-name   # pushes a specific branch to the remote, regardless of which branch you're currently on
+```
+
+```bash
 git push -u origin branch-name # Push AND set upstream (first time pushing new branch)
 ```
 
@@ -277,30 +283,38 @@ git reset                     # Unstage everything
 
 ### Discard Changes to a File
 
-**What it does:** Throws away changes to a file and reverts it back to the last commit.
+**What it does:** Throws away uncommitted changes to a file and reverts it back to exactly how it was in your last commit.
 
 ```bash
 git checkout -- filename.txt  # Classic way
 git restore filename.txt      # Newer way (use this one)
 ```
 
-**When to use it:** When you've made changes you don't want to keep and want to start fresh.
+**When to use it:** When you've made changes to a file that you **haven't committed yet** and you want to throw them away completely.
 
-**Warning:** This DELETES your changes permanently. Use carefully.
+**Real scenario example:**
 
----
+1. Last commit: `index.html` has a blue header
+2. You spend 20 minutes changing it to red, adding new divs, etc.
+3. You **haven't staged or committed** these changes yet
+4. You realize the red header looks terrible
+5. You run: `git restore index.html`
+6. **File is back to blue header**—all your red header work is gone forever
 
-### Undo Last Commit (Keep Changes)
+**Common use cases:**
 
-**What it does:** Undoes your last commit but keeps the changes in your working directory.
+- **Experimental changes that didn't work out** - Tried something, it sucks, want the old version back
+- **Accidentally broke something** - Edited a file and now it's broken, easiest fix is to reset it
+- **Started down the wrong path** - Realize you're solving the problem the wrong way, want to start fresh
+- **Made changes to the wrong file** - Oops, edited the wrong file by mistake
 
-```bash
-git reset --soft HEAD~1
-```
+**Warning:** This DELETES your uncommitted changes permanently. Once you run this, those changes are **gone forever**—they're not in your commit history, not staged, not anywhere. Git can't get them back because you never committed them. It's like editing a Word doc, making changes, then hitting "Revert to Last Saved" without saving first.
 
-**When to use it:** When you committed too early or with a bad message and want to re-do it.
+**Key distinction:**
 
-**Breakdown:** `HEAD~1` means "one commit before the current one". `--soft` keeps your changes staged.
+- `git restore filename.txt` → Throws away **uncommitted changes** (file goes back to last commit)
+- `git reset` → Undoes a **commit** (covered in other sections)
+- `git revert` → Creates new commit that undoes an old commit (covered in other sections)
 
 ---
 
@@ -508,7 +522,3 @@ git push
 3. **Use branches for everything** - Keep main branch clean, do work in feature branches.
 4. **Check status constantly** - `git status` is your friend. Use it liberally.
 5. **Don't panic** - Almost everything in Git is recoverable. Take a breath, read the error, try again.
-
----
-
-_Last updated: January 2025_
