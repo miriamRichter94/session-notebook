@@ -4,7 +4,7 @@
 
 <h1>Basics </h1>
 <p>
-    This is in regards of the first Coding-Challange. <br>
+    This is in regards of the first Coding-Challange. Link: <a href="https://cssbattle.dev/play/1"> Coding Challange 2 </a> <br>
     The given base code (Picture 1) should be modified that we get the result from Picture 2.
 </p>
 
