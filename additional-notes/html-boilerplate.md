@@ -124,7 +124,6 @@ This `viewport` meta tag tells the phone: "No, don't do that! Make the website t
 - `initial-scale=1.0` = "Start at 100% zoom (no zooming in or out)"
 
 **Is it optional?** For desktop-only sites, yes. But in 2026, **everyone** browses on phones, so **always include it**. Without it, your site will look broken on mobile.
-f
 
 ---
 
