@@ -996,6 +996,8 @@ A generic section of content, usually with a heading.
 - Content that logically belongs together
 - Each section typically has its own heading
 
+**Advanced note:** 💡 Like articles, sections CAN have their own `<header>` and `<footer>` elements, but in practice this is rarely needed. Most of the time, a simple heading is enough
+
 ---
 
 #### **`<article>` - Self-Contained Content 📰**
@@ -1021,6 +1023,72 @@ Content that makes sense on its own, even if removed from the rest of the page.
 </article>
 ```
 
+**Important note about `<header>` and `<footer>` inside articles:** 📌
+
+You can (and should!) use `<header>` and `<footer>` inside your `<article>` elements. These are NOT the same as the page-level header and footer.
+
+**Think of it like nested contexts:**
+
+```html
+<!-- Page-level header -->
+<header>
+  <h1>My Blog Website</h1>
+  <nav>...</nav>
+</header>
+
+<main>
+  <!-- Article-specific header -->
+  <article>
+    <header>
+      <h2>Article Title</h2>
+      <p>Article metadata (author, date, etc.)</p>
+    </header>
+
+    <p>Article content...</p>
+
+    <!-- Article-specific footer -->
+    <footer>
+      <p>Article-specific info (tags, share buttons, etc.)</p>
+    </footer>
+  </article>
+
+  <!-- Another article with its own header/footer -->
+  <article>
+    <header>
+      <h2>Another Article</h2>
+    </header>
+    <p>Different content...</p>
+    <footer>
+      <p>Different tags...</p>
+    </footer>
+  </article>
+</main>
+
+<!-- Page-level footer -->
+<footer>
+  <p>&copy; 2026 My Blog</p>
+</footer>
+```
+
+**Why this works:**
+
+Each `<header>` and `<footer>` is scoped to its parent element. The `<header>` inside an `<article>` describes THAT article's introductory content, not the whole page.
+
+**Use article headers for:**
+
+- Article title
+- Author name
+- Publication date
+- Category/topic
+
+**Use article footers for:**
+
+- Tags
+- Author bio
+- Related articles
+- Share buttons
+- Comment count
+
 **Use `<article>` for:**
 
 - Blog posts
@@ -1028,6 +1096,7 @@ Content that makes sense on its own, even if removed from the rest of the page.
 - Forum posts
 - Product cards
 - User comments
+- Social media posts
 
 ---
 
