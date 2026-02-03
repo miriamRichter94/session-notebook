@@ -416,6 +416,170 @@ Both [VS Code][vscode] and [GitHub][gh] are essential tools.
 
 ---
 
+### Table of Contents (Anchor Links)
+
+**What it does:** Creates a clickable list that jumps to different sections of the same document.
+
+**How it works:**
+
+Markdown automatically creates anchor links for all headings. The anchor is the heading text:
+
+- Converted to lowercase
+- Spaces become hyphens (`-`)
+- Special characters removed
+
+**Syntax:**
+
+```markdown
+# My Document
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+- [Advanced Topics](#advanced-topics)
+- [Quick Reference](#quick-reference)
+
+---
+
+## Introduction
+
+Content here...
+
+---
+
+## Getting Started
+
+Content here...
+
+---
+
+## Advanced Topics
+
+Content here...
+
+---
+
+## Quick Reference
+
+Content here...
+```
+
+**How to create anchor links:**
+
+| Heading in Document           | Anchor Link to Use        |
+| ----------------------------- | ------------------------- |
+| `## What is CSS?`             | `#what-is-css`            |
+| `## CSS Syntax`               | `#css-syntax`             |
+| `## Selectors & Specificity`  | `#selectors--specificity` |
+| `## Common Mistakes (Part 1)` | `#common-mistakes-part-1` |
+
+**Rules for anchor links:**
+
+1. Always start with `#`
+2. Use lowercase
+3. Replace spaces with hyphens
+4. Remove or replace special characters with hyphens
+5. Multiple hyphens become single hyphens
+
+**When to use:** Long documents, comprehensive guides, documentation that needs easy navigation.
+
+**Pro tip:** Most Markdown editors show you the generated anchor when you hover over a heading.
+
+---
+
+### Back to Top Links
+
+**What they do:** Create clickable links that jump back to the top of the document (usually to the Table of Contents).
+
+**When to use:** Very long documents where readers need easy navigation back to the TOC after finishing a section.
+
+**How it works:**
+
+**Step 1: Add an anchor at the top of your document**
+
+```markdown
+<a name="top"></a>
+
+# My Document
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Getting Started](#getting-started)
+- [Advanced Topics](#advanced-topics)
+```
+
+**Step 2: Add back to top links at the end of sections**
+
+```markdown
+## Introduction
+
+Long content here...
+More content...
+Lots of text...
+
+[↑ Back to top](#top)
+
+---
+
+## Getting Started
+
+More long content here...
+
+[↑ Back to top](#top)
+
+---
+
+## Advanced Topics
+
+Even more content...
+
+[↑ Back to top](#top)
+```
+
+**Renders as:**
+
+When clicked, `[↑ Back to top](#top)` jumps you back to the `<a name="top"></a>` anchor at the beginning of the document.
+
+**Alternative anchor methods:**
+
+You can also link directly to the document title:
+
+```markdown
+# My Document
+
+## Table of Contents
+
+...
+
+---
+
+## Section 1
+
+Content here...
+
+[↑ Back to top](#my-document)
+```
+
+This works because headings automatically create anchors.
+
+**When to use:**
+
+- Very long documents (20+ pages)
+- Reference documentation with lots of jumping around
+- Multi-section tutorials
+
+**When NOT to use:**
+
+- Short documents (under 10 pages)
+- Documents people read top-to-bottom
+- When TOC is always visible in sidebar
+
+**Pro tip:** Use an arrow symbol (↑) to make the link visually clear: `[↑ Back to top]`
+
+---
+
 ## 5. Code Blocks
 
 Display code or command-line examples.
