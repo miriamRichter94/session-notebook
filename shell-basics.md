@@ -1,5 +1,23 @@
 # Shell Basics
 
+- [Understanding the Layers](#understanding-the-layers)
+  - [How Terminal, Shell, and OS Work Together](#how-terminal-shell-and-os-work-together)
+- [Core Concepts Before Commands](#core-concepts-before-commands)
+  - [Directories and Files: What You Need to Know](#directories-and-files-what-you-need-to-know)
+  - [The File System Tree Structure](#the-file-system-tree-structure)
+  - [Current Working Directory: Where You Are Right Now](#current-working-directory-where-you-are-right-now)
+  - [Paths: Absolute vs Relative](#paths-absolute-vs-relative)
+  - [Understanding the Prompt](#understanding-theprompt)
+- [Essential Commands with Context](#essential-commands-with-context)
+  - [Navigation Commands](#navigation-commands)
+    - [`pwd` - Print Working Directory](#pwd---print-working-directory)
+    - [`ls` - List Directory Contents](#ls---list-directory-contents)
+    - [`cd` - Change Directory](#cd---change-directory)
+  - [File and Directory Operations](#file-and-directory-operations)
+    - [`touch` - Create a New File](#touch---create-a-new-file)
+    - [`mkdir` - Make Directory](#mkdir---make-directory)
+    - [`cp` - Copy Files](#cp---copy-files)
+
 ## Understanding the Layers
 
 ### How Terminal, Shell, and OS Work Together
