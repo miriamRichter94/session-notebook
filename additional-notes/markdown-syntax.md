@@ -477,10 +477,10 @@ Content here...
 **Rules for anchor links:**
 
 1. Always start with `#`
-2. Use lowercase
-3. Replace spaces with hyphens
-4. Remove or replace special characters with hyphens
-5. Multiple hyphens become single hyphens
+2. Convert to lowercase
+3. Replace spaces with hyphens (`-`)
+4. Keep only letters, numbers, hyphens, and underscores—remove everything else
+5. Multiple consecutive hyphens may collapse to one (renderer-dependent)
 
 **When to use:** Long documents, comprehensive guides, documentation that needs easy navigation.
 
