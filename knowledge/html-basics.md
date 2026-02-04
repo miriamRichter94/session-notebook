@@ -1,5 +1,26 @@
 # HTML Basics
 
+- [What HTML Actually Is](#what-html-actually-is)
+  - [HTML = Structure and Content, Not Appearance](#html--structure-and-content-not-appearance-️)
+- [How Browsers Read HTML](#how-browsers-read-html-)
+- [Code vs What You See](#code-vs-what-you-see-)
+- [What HTML Can and Can't Do](#what-html-can-and-cant-do-)
+- [Why "Markup Language"?](#why-markup-language-️)
+- [Your First HTML File: From Code to Browser](#your-first-html-file-from-code-to-browser-)
+- [HTML Fundamentals](#html-fundamentals-)
+  - [Elements, Tags, and Attributes](#elements-tags-and-attributes-️)
+  - [Nesting and Parent-Child Relationships](#nesting-and-parent-child-relationships-)
+  - [Block vs Inline Elements](#block-vs-inline-elements-)
+  - [Common HTML Elements with Examples](#common-html-elements-with-examples-)
+  - [Putting It All Together](#putting-it-all-together-)
+- [Semantic HTML & Structure](#semantic-html--structure-️)
+  - [What Does "Semantic" Mean?](#what-does-semantic-mean-)
+  - [Why Semantic HTML Matters](#why-semantic-html-matters-)
+  - [Semantic vs Non-Semantic: The Difference](#semantic-vs-non-semantic-the-difference-)
+  - [Common Semantic Elements](#common-semantic-elements-)
+  - [Text-Level Semantic Elements](#text-level-semantic-elements-️)
+  - [Media and Time Semantic Elements](#media-and-time-semantic-elements-️)
+
 ## **What HTML Actually Is**
 
 #### **HTML = Structure and Content, Not Appearance 🏗️**

@@ -4,6 +4,45 @@ A beginner-friendly guide to Markdown formatting, organized by how often you'll 
 
 ---
 
+- [1. The Basics](#1-the-basics)
+  - [Headers](#headers)
+  - [Paragraphs](#paragraphs)
+  - [Line Breaks](#line-breaks)
+  - [Accidentally Deleted Something Important](#accidentally-deleted-something-important)
+- [2. Text Formatting](#2-text-formatting)
+  - [Bold](#bold)
+  - [Italic](#italic)
+  - [Bold AND Italic](#bold-and-italic)
+  - [Strikethrough](#strikethrough)
+  - [Inline Code](#inline-code)
+- [3. Lists](#3-lists)
+  - [Unordered Lists (Bullets)](#unordered-lists-bullets)
+  - [Ordered Lists (Numbers)](#ordered-lists-numbers)
+  - [Nested Lists](#nested-lists)
+  - [Task Lists (Checkboxes)](#task-lists-checkboxes)
+- [4. Links & Images](#4-links--images)
+  - [Links](#links)
+  - [Images](#images)
+  - [Reference-Style Links (Advanced)](#reference-style-links-advanced)
+  - [Table of Contents (Anchor Links)](#table-of-contents-anchor-links)
+  - [Back to Top Links](#back-to-top-links)
+- [5. Code Blocks](#5-code-blocks)
+  - [Inline Code](#inline-code)
+  - [Code Blocks (No Syntax Highlighting)](#code-blocks-no-syntax-highlighting)
+  - [Code Blocks with Syntax Highlighting](#code-blocks-with-syntax-highlighting)
+- [6. Tables](#6-tables)
+  - [Basic Table](#basic-table)
+  - [Table with Alignment](#table-with-alignment)
+- [7. Advanced & Mixed Formatting](#7-advanced--mixed-formatting)
+  - [Horizontal Rules (Dividers)](#horizontal-rules-dividers)
+  - [Blockquotes](#blockquotes)
+  - [HTML Inside Markdown](#html-inside-markdown)
+  - [Escaping Special Characters](#escaping-special-characters)
+  - [Comments (Hidden Text)](#comments-hidden-text)
+- [8. Quick Reference Cheat Sheet](#8-quick-reference-cheat-sheet)
+
+---
+
 ## 1. The Basics
 
 These are the building blocks you'll use in every Markdown file.
@@ -917,7 +956,7 @@ You can use it for notes to yourself:
 
 ---
 
-## Quick Reference Cheat Sheet
+## 8. Quick Reference Cheat Sheet
 
 | Syntax              | What It Does                |
 | ------------------- | --------------------------- |

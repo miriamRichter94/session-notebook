@@ -1,5 +1,45 @@
 # Git Commands Reference
 
+- [1. Everyday Basics](#1-everyday-basics)
+  - [Check Status](#check-status)
+  - [Stage Files](#stage-files)
+  - [Commit Changes](#commit-changes)
+  - [View Commit History](#view-commit-history)
+- [2. Branch Work](#2-branch-work)
+  - [List All Branches](#list-all-branches)
+  - [Create a New Branch](#create-a-new-branch)
+    - [Without switching Branch](#without-switching-branch)
+    - [With swtiching Branch](#with-swtiching-branch)
+  - [Switch to a Branch](#switch-to-a-branch)
+  - [Delete a Branch](#delete-a-branch)
+- [3. Collaboration (Working with Remote Repos)](#3-collaboration-working-with-remote-repos)
+  - [Clone a Repository](#clone-a-repository)
+  - [Add a Remote](#add-a-remote)
+  - [Check Remote URLs](#check-remote-urls)
+  - [Pull Changes from Remote](#pull-changes-from-remote)
+  - [Push Changes to Remote](#push-changes-to-remote)
+  - [Fetch Changes (Without Merging)](#fetch-changes-without-merging)
+- [4. "Oh Shit" Moments (Fixing Mistakes)](#4-oh-shit-moments-fixing-mistakes)
+  - [Unstage a File](#unstage-a-file)
+  - [Discard Changes to a File](#discard-changes-to-a-file)
+  - [Undo Last Commit (Discard Changes)](#undo-last-commit-discard-changes)
+  - [Amend Last Commit](#amend-last-commit)
+  - [View What Changed in a File](#view-what-changed-in-a-file)
+  - [Revert a Commit (Safe Undo)](#revert-a-commit-safe-undo)
+  - [Merge Conflicts (Oh Fuck)](#merge-conflicts-oh-fuck)
+- [5. Power Moves (Advanced But Useful)](#5-power-moves-advanced-but-useful)
+  - [Stash Changes](#stash-changes)
+  - [Cherry-Pick a Commit](#cherry-pick-a-commit)
+  - [Rebase (Advanced)](#rebase-advanced)
+  - [Show Commit Details](#show-commit-details)
+  - [Tag a Commit (Version Marking)](#tag-a-commit-version-marking)
+- [6. Quick Reference Cheat Sheet](#6-quick-reference-cheat-sheet)
+- [7. Common Workflows](#7-common-workflows)
+  - [Starting a New Feature](#starting-a-new-feature)
+  - [Daily Work Cycle](#daily-work-cycle)
+  - [Fixing a Mistake Before Pushing](#fixing-a-mistake-before-pushing)
+- [8. Pro Tips](#8-pro-tips)
+
 A beginner-friendly guide to Git commands, organized by how badly you need them right now. <br>
 Also with some addtional explainations, if needed.
 
@@ -463,7 +503,7 @@ git push origin --tags        # Push tags to remote
 
 ---
 
-## Quick Reference Cheat Sheet
+## 6. Quick Reference Cheat Sheet
 
 | Command                     | What It Does                    |
 | --------------------------- | ------------------------------- |
@@ -480,7 +520,7 @@ git push origin --tags        # Push tags to remote
 
 ---
 
-## Common Workflows
+## 7. Common Workflows
 
 ### Starting a New Feature
 
@@ -515,7 +555,7 @@ git push
 
 ---
 
-## Pro Tips
+## 8. Pro Tips
 
 1. **Commit often, push regularly** - Small commits are easier to understand and revert if needed.
 2. **Write clear commit messages** - Your future self will thank you.

@@ -1,5 +1,17 @@
 # HTML Boilerplate - Beginner-Friendly Breakdown
 
+- [Word boilerplate explained](#word-boilerplate-explained)
+- [`<!doctype html>`](#doctype-html)
+- [`<html lang="en">`](#html-langen)
+- [`<head>` Section](#head-section)
+- [`<body>` Section](#body-section)
+- [`</html>` - The Closing Tag](#html---the-closing-tag)
+- [What's Actually Optional?](#whats-actually-optional)
+  - [CAN'T SKIP (Required for valid HTML)](#cant-skip-required-for-valid-html)
+  - [TECHNICALLY OPTIONAL, BUT DON'T SKIP](#technically-optional-but-dont-skip)
+  - [THE GOLDEN RULE](#the-golden-rule)
+- [Quick Reference - Copy/Paste This Every Time](#quick-reference---copypaste-this-every-time)
+
 Today we had this main template for HTML sides. Unfortunately some explainations where in my eyes to vague. <br>
 Hence why i went to claude and let me eyplain that code bit by bit.
 
@@ -15,7 +27,7 @@ Hence why i went to claude and let me eyplain that code bit by bit.
 </html>
 ```
 
-### Word boilerplate explained
+## Word boilerplate explained
 
 (in the sense of programming) <br>
 Boilerplate is the **standard, repetitive code** that you need to include in every project, even though it's not the interesting or unique part.
