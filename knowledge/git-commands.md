@@ -8,8 +8,6 @@
 - [2. Branch Work](#2-branch-work)
   - [List All Branches](#list-all-branches)
   - [Create a New Branch](#create-a-new-branch)
-    - [Without switching Branch](#without-switching-branch)
-    - [With swtiching Branch](#with-swtiching-branch)
   - [Switch to a Branch](#switch-to-a-branch)
   - [Delete a Branch](#delete-a-branch)
 - [3. Collaboration (Working with Remote Repos)](#3-collaboration-working-with-remote-repos)
