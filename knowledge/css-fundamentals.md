@@ -1474,3 +1474,2760 @@ We'll dive deep into specificity in the next section.
 | Attribute (`[type="text"]`) | Targeting specific form inputs or attributes     |
 | Pseudo-class (`:hover`)     | Styling interactive states                       |
 | Combinators (`nav a`)       | Targeting elements within specific containers    |
+
+Perfect. Let's build this carefully—no duplication, practical examples, and showing how all three concepts work together.
+
+---
+
+## **Cascade, Specificity & Inheritance 🌊**
+
+These three concepts determine which styles actually get applied to your elements. Understanding them is crucial for predicting how your CSS will work and fixing styling conflicts.
+
+### **Why This Matters 💡**
+
+You'll often have multiple CSS rules targeting the same element:
+
+```css
+p {
+  color: blue;
+}
+
+.highlight {
+  color: red;
+}
+```
+
+```html
+<p class="highlight">What color am I?</p>
+```
+
+**Which color wins?** That's what cascade, specificity, and inheritance determine.
+
+---
+
+### **The Cascade: Conflict Resolution 🌊**
+
+The **cascade** is the algorithm browsers use to decide which style wins when multiple rules conflict.
+
+#### **The Three Factors (in order of priority)**
+
+When multiple rules target the same element, the browser checks:
+
+1. **Importance** - Is `!important` used?
+2. **Specificity** - How specific is the selector?
+3. **Source Order** - Which rule comes last?
+
+---
+
+#### **Factor 1: Importance (!important)**
+
+**Syntax:**
+
+```css
+p {
+  color: blue !important;
+}
+```
+
+**What it does:** Forces this declaration to win over almost everything else.
+
+**Example:**
+
+```css
+p {
+  color: red;
+}
+
+p {
+  color: blue !important;
+}
+
+p {
+  color: green;
+}
+```
+
+**Result:** The paragraph is **blue**, even though `green` comes last, because `!important` overrides everything.
+
+**⚠️ DO NOT USE `!important`**
+
+**Why avoid it?**
+
+- Makes debugging extremely difficult
+- Creates specificity wars (you'll need more `!important` to override it)
+- Breaks the natural cascade
+
+**When it's acceptable:**
+
+- Overriding third-party CSS you can't edit
+- Utility classes that should always win (rare cases)
+
+**Rule of thumb:** If you're using `!important`, there's usually a better solution.
+
+---
+
+#### **Factor 2: Specificity (The Hierarchy)**
+
+If no `!important` is involved, **specificity** decides which rule wins.
+
+**Specificity = How specific/targeted your selector is**
+
+**The specificity hierarchy (weakest → strongest):**
+
+1. **Universal selector** (`*`) - Specificity: 0-0-0
+2. **Type selectors** (`p`, `div`, `h1`) - Specificity: 0-0-1
+3. **Class selectors** (`.highlight`), **attribute selectors** (`[type="text"]`), **pseudo-classes** (`:hover`) - Specificity: 0-1-0
+4. **ID selectors** (`#header`) - Specificity: 1-0-0
+5. **Inline styles** (`style="..."` in HTML) - Specificity: 1-0-0-0
+6. **!important** - Overrides everything
+
+---
+
+##### **How Specificity is Calculated 🧮**
+
+Specificity is written as three numbers: `X-Y-Z`
+
+| Position | Counts                              | Example           |
+| -------- | ----------------------------------- | ----------------- |
+| **X**    | ID selectors                        | `#header` = 1-0-0 |
+| **Y**    | Classes, attributes, pseudo-classes | `.button` = 0-1-0 |
+| **Z**    | Type selectors, pseudo-elements     | `p` = 0-0-1       |
+
+**Examples:**
+
+```css
+p                    /* 0-0-1 (one type selector) */
+.highlight           /* 0-1-0 (one class) */
+#header              /* 1-0-0 (one ID) */
+p.highlight          /* 0-1-1 (one class + one type) */
+nav ul li            /* 0-0-3 (three type selectors) */
+nav .menu-item       /* 0-1-1 (one class + one type) */
+#header .nav a       /* 1-1-1 (one ID + one class + one type) */
+```
+
+---
+
+##### **Comparing Specificity 🆚**
+
+**Which selector wins?**
+
+```css
+p {
+  color: blue;
+} /* 0-0-1 */
+.highlight {
+  color: red;
+} /* 0-1-0 */
+```
+
+```html
+<p class="highlight">What color am I?</p>
+```
+
+**Answer:** Red
+
+**Why?** Class selector (0-1-0) beats type selector (0-0-1)
+
+---
+
+**Another example:**
+
+```css
+p {
+  color: blue;
+} /* 0-0-1 */
+.highlight {
+  color: red;
+} /* 0-1-0 */
+#special {
+  color: green;
+} /* 1-0-0 */
+```
+
+```html
+<p class="highlight" id="special">What color am I?</p>
+```
+
+**Answer:** Green
+
+**Why?** ID selector (1-0-0) beats everything else
+
+---
+
+##### **The Specificity Chart 🦈**
+
+Remember the fish chart from your handout? Here's what it means:
+
+![CSS Specificity Chart](assets/specificityChart.png)
+
+**Reading the chart:**
+
+- **Plankton** (weakest) = Universal selector (0-0-0)
+- **Fish** = Type selectors (0-0-1)
+- **Bigger fish** = Class/attribute selectors (0-1-0)
+- **Shark** = ID selectors (1-0-0)
+- **Ship** = Inline styles (`style="..."` in HTML) (1-0-0-0)
+- **Nuclear explosion** = `!important` (destroys everything)
+
+**The bigger the fish, the higher the specificity.**
+
+---
+
+##### **Specificity Addition 🧮**
+
+When you combine selectors, specificity adds up:
+
+```css
+nav ul li a {
+  /* nav = 0-0-1
+     ul  = 0-0-1
+     li  = 0-0-1
+     a   = 0-0-1
+     Total: 0-0-4 */
+}
+
+.menu-link {
+  /* Total: 0-1-0 */
+}
+```
+
+**Which wins?** `.menu-link` (0-1-0) beats `nav ul li a` (0-0-4)
+
+**Why?** Classes always beat type selectors, no matter how many type selectors you chain.
+
+---
+
+#### **Factor 3: Source Order (Last Rule Wins)**
+
+If two rules have **equal specificity**, the **last one wins**.
+
+**Example:**
+
+```css
+p {
+  color: blue;
+}
+
+p {
+  color: red;
+}
+```
+
+Both have specificity 0-0-1. **Red wins** because it comes last.
+
+---
+
+**Another example:**
+
+```css
+.highlight {
+  color: blue;
+}
+
+.highlight {
+  color: red;
+}
+```
+
+```html
+<p class="highlight">What color am I?</p>
+```
+
+**Answer:** Red (last rule with equal specificity wins)
+
+---
+
+#### **Cascade Algorithm Summary 📋**
+
+When styles conflict, the browser checks in this order:
+
+1. **Is `!important` used?** → That rule wins (don't use this)
+2. **Which selector is more specific?** → Higher specificity wins
+3. **Which rule comes last?** → Last rule wins
+
+---
+
+### **Inheritance: What Passes Down 👨‍👩‍👧‍👦**
+
+Some CSS properties are **inherited** from parent elements to child elements automatically.
+
+#### **What is Inheritance? 🤔**
+
+If a child element doesn't have a style explicitly set, it may inherit the value from its parent.
+
+**Example:**
+
+```css
+body {
+  color: gray;
+  font-family: Arial, sans-serif;
+}
+```
+
+```html
+<body>
+  <p>I'm gray Arial text (inherited from body)</p>
+  <h1>I'm also gray Arial text (inherited from body)</h1>
+</body>
+```
+
+The `<p>` and `<h1>` didn't have `color` or `font-family` set directly, so they inherited from `<body>`.
+
+---
+
+#### **Which Properties Inherit? 🔍**
+
+| Properties that inherit (mostly text-related)✅ | Properties that DON'T inherit (mostly layout-related) ❌ |
+| :---------------------------------------------: | :------------------------------------------------------: |
+|                     `color`                     |                         `margin`                         |
+|                  `font-family`                  |                        `padding`                         |
+|                   `font-size`                   |                         `border`                         |
+|                  `font-weight`                  |                         `width`                          |
+|                  `line-height`                  |                         `height`                         |
+|                  `text-align`                   |                    `background-color`                    |
+|                `text-transform`                 |                        `display`                         |
+|                `letter-spacing`                 |                        `position`                        |
+|                 `word-spacing`                  |                                                          |
+
+---
+
+#### **Why This Makes Sense 🧠**
+
+**Text properties inherit** because you usually want consistent typography throughout a section.
+
+**Layout properties don't inherit** because every element needs its own spacing and positioning.
+
+---
+
+#### **Inheritance in Action 🎯**
+
+**Example 1: Typography inheritance**
+
+```css
+article {
+  color: darkgray;
+  font-family: Georgia, serif;
+  line-height: 1.6;
+}
+```
+
+```html
+<article>
+  <h2>Article Title</h2>
+  <p>Article content goes here.</p>
+  <ul>
+    <li>List item one</li>
+    <li>List item two</li>
+  </ul>
+</article>
+```
+
+**All elements inside `<article>` inherit:**
+
+- Gray color
+- Georgia font
+- 1.6 line-height
+
+---
+
+**Example 2: Overriding inheritance**
+
+```css
+body {
+  color: gray;
+}
+
+h1 {
+  color: black; /* Overrides inherited gray */
+}
+```
+
+```html
+<body>
+  <h1>I'm black (explicitly set)</h1>
+  <p>I'm gray (inherited from body)</p>
+</body>
+```
+
+---
+
+#### **Forcing Inheritance with `inherit` 🔧**
+
+Some properties don't inherit by default, but you can force them to:
+
+```css
+.parent {
+  border: 2px solid black;
+}
+
+.child {
+  border: inherit; /* Forces child to inherit parent's border */
+}
+```
+
+**When to use:** Rarely needed, but useful for specific cases where you want a non-inheriting property to inherit.
+
+---
+
+### **How They Work Together 🧩**
+
+Let's combine cascade, specificity, and inheritance in a real example:
+
+```css
+body {
+  color: gray;
+  font-size: 16px;
+}
+
+p {
+  color: blue;
+}
+
+.highlight {
+  color: red;
+}
+
+#special {
+  color: green;
+}
+```
+
+```html
+<body>
+  <p>I'm blue (type selector beats inheritance)</p>
+  <p class="highlight">I'm red (class beats type)</p>
+  <p id="special">I'm green (ID beats class)</p>
+  <span>I'm gray (inherited from body, no other rule applies)</span>
+</body>
+```
+
+---
+
+### **Debugging Strategy 🔍**
+
+**When styles don't work, check in this order:**
+
+1. **Is there a typo?** (property name, selector)
+2. **Is the selector targeting the right element?** (use DevTools to verify)
+3. **Is another rule overriding it?** (check specificity)
+4. **Is the rule being inherited when you expected it to be set directly?**
+5. **Is there `!important` somewhere blocking your rule?**
+
+---
+
+### **Using Browser DevTools to Debug CSS 🛠️**
+
+**How to inspect an element:**
+
+1. **Right-click on the element** you want to inspect
+2. **Select "Inspect" or "Inspect Element"**
+3. The **Elements/Inspector panel** opens showing the HTML
+4. The **Styles panel** on the right shows all CSS rules applying to that element
+
+---
+
+**What you'll see in the Styles panel:**
+
+```
+element.style { }  ← Inline styles (if any)
+
+.highlight {       ← Applied rules (highest specificity first)
+  color: red;
+}
+
+p {                ← Lower specificity rules
+  color: blue;     ← Crossed out = overridden
+}
+```
+
+**Key indicators:**
+
+- **Crossed out property** = This rule is being overridden by a more specific rule
+- **No strike-through** = This rule is actually applied
+- **Order matters** = Rules at the top have higher priority
+
+---
+
+**Example walkthrough:**
+
+```html
+<p class="highlight" id="special">What color am I?</p>
+```
+
+```css
+p {
+  color: blue;
+}
+.highlight {
+  color: red;
+}
+#special {
+  color: green;
+}
+```
+
+**In DevTools Styles panel, you'd see:**
+
+```
+#special {
+  color: green;  ← Actually applied (ID wins)
+}
+
+.highlight {
+  color: red;    ← Crossed out (overridden by ID)
+}
+
+p {
+  color: blue;   ← Crossed out (overridden by class and ID)
+}
+```
+
+---
+
+**Finding the winning rule:**
+
+1. **Look for the first non-crossed-out property** in the Styles panel
+2. That's the rule actually being applied
+3. Everything below it with a strike-through is being overridden
+
+---
+
+**Checking inherited properties:**
+
+In the Styles panel, scroll down to see:
+
+```
+Inherited from body
+  color: gray;
+  font-family: Arial;
+```
+
+This shows which properties are coming from parent elements.
+
+---
+
+**Pro tip:** 💡 You can **temporarily disable rules** in DevTools by clicking the checkbox next to a property. This helps you test what happens without that rule.
+
+---
+
+### **Best Practices 💡**
+
+**✅DO:**
+
+- Use classes for most styling (good specificity balance)
+- Keep selectors simple (avoid long chains like `nav ul li a span`)
+- Rely on inheritance for typography
+- Understand why a style wins, don't just add `!important`
+
+**❌DON'T:**
+
+- Use IDs for styling (too much specificity)
+- Chain too many selectors (`article div.container ul li a` is overkill)
+- Use `!important`
+- Fight the cascade—work with it
+
+---
+
+## **Box Model 📦**
+
+Every element on a webpage is a rectangular box. The **box model** defines how that box is sized and how space is calculated around it.
+
+Understanding the box model is essential for controlling layout, spacing, and element sizing.
+
+---
+
+### **The Four Layers 🧅**
+
+Every element's box consists of four layers, from inside to outside:
+
+1. **Content** - The actual content (text, image, etc.)
+2. **Padding** - Space between the content and the border
+3. **Border** - The edge of the element
+4. **Margin** - Space outside the border, pushing other elements away
+
+**Visual representation:**
+
+```
+┌──────────────────── MARGIN ─────────────────────┐
+│                                                 │
+│   ┌─────────────── BORDER ──────────────────┐   │
+│   │                                         │   │
+│   │   ┌──────────── PADDING ───────────┐    │   │
+│   │   │                                │    │   │
+│   │   │   ┌─────── CONTENT ────────┐   │    │   │
+│   │   │   │                        │   │    │   │
+│   │   │   │   Text or image here   │   │    │   │
+│   │   │   │                        │   │    │   │
+│   │   │   └────────────────────────┘   │    │   │
+│   │   │                                │    │   │
+│   │   └────────────────────────────────┘    │   │
+│   │                                         │   │
+│   └─────────────────────────────────────────┘   │
+│                                                 │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+#### **Content**
+
+The actual content of the element—text, images, or other HTML.
+
+```css
+div {
+  width: 200px;
+  height: 100px;
+}
+```
+
+This sets the size of the **content area** (by default—we'll see why this matters soon).
+
+---
+
+#### **Padding**
+
+Space **inside** the element, between the content and the border.
+
+```css
+div {
+  padding: 20px;
+}
+```
+
+Adds 20px of space on all sides inside the element.
+
+**Individual sides:**
+
+```css
+div {
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+}
+```
+
+**Shorthand:**
+
+```css
+padding: 10px 20px; /* top/bottom: 10px, left/right: 20px */
+padding: 10px 20px 15px; /* top: 10px, left/right: 20px, bottom: 15px */
+padding: 10px 20px 15px 5px; /* top, right, bottom, left (clockwise) */
+```
+
+---
+
+#### **Border**
+
+The edge of the element. Can have width, style, and color.
+
+```css
+div {
+  border: 2px solid black;
+}
+```
+
+**Individual properties:**
+
+```css
+div {
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+}
+```
+
+**Individual sides:**
+
+```css
+div {
+  border-top: 2px solid black;
+  border-right: 1px dashed gray;
+}
+```
+
+---
+
+#### **Margin**
+
+Space **outside** the element, pushing other elements away.
+
+```css
+div {
+  margin: 20px;
+}
+```
+
+Adds 20px of space on all sides outside the element.
+
+**Same shorthand rules as padding:**
+
+```css
+margin: 10px 20px; /* top/bottom: 10px, left/right: 20px */
+margin: 10px 20px 15px 5px; /* top, right, bottom, left */
+```
+
+---
+
+### **The Width Problem 🤔**
+
+Now that you understand the four layers, here's where it gets confusing.
+
+**You create a box and set its width:**
+
+```css
+div {
+  width: 200px;
+}
+```
+
+**Simple question: How wide is this box?**
+
+You'd expect: **200px**
+
+And you'd be right... for now.
+
+---
+
+**Now you add padding:**
+
+```css
+div {
+  width: 200px;
+  padding: 20px;
+}
+```
+
+**How wide is the box now?**
+
+You might think: **Still 200px** (I set `width: 200px`)
+
+**Actually: 240px** 😱
+
+**Why?** By default, CSS **adds** padding on top of the width.
+
+```
+Content:  200px (your width)
+Padding:  20px left + 20px right = 40px
+────────────────────────────────────────
+Total:    240px
+```
+
+---
+
+**Now you add a border:**
+
+```css
+div {
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+**How wide now?**
+
+**250px** (200 content + 40 padding + 10 border)
+
+**This is the width problem:** You set `width: 200px`, but the actual box is 250px wide.
+
+---
+
+### **The box-sizing Property 🎛️**
+
+The `box-sizing` property controls **what `width` and `height` actually measure**.
+
+Do they measure:
+
+- Just the content? (old default)
+- Content + padding + border? (modern preference)
+
+**Syntax:**
+
+```css
+div {
+  box-sizing: content-box; /* Default for most elements */
+}
+
+div {
+  box-sizing: border-box; /* Modern preference */
+}
+```
+
+**Important:** `box-sizing` affects **both `width` AND `height`** in the same way. All the examples below focus on width for simplicity, but the same logic applies to height.
+
+Let's break down each option.
+
+---
+
+#### **content-box: The Default Behavior**
+
+`box-sizing: content-box` is the default for most HTML elements.
+
+**What it means:** `width` and `height` only apply to the **content area**. Padding and border are **added on top**.
+
+**Example:**
+
+```css
+div {
+  box-sizing: content-box; /* This is the default */
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+**The math:**
+
+```
+Content:  200px  ← Your width applies here
+Padding:  20px (left) + 20px (right) = 40px  ← Added
+Border:   5px (left) + 5px (right) = 10px    ← Added
+──────────────────────────────────────────────────
+Total:    250px  ← Actual box width
+```
+
+**The box is 250px wide, even though you set `width: 200px`.**
+
+---
+
+**Why this is confusing:**
+
+When you write `width: 200px`, you're thinking "this box will be 200px wide."
+
+But CSS interprets it as: "The CONTENT will be 200px wide. Then I'll add padding and border on top of that."
+
+**Real-world problem:**
+
+```css
+.column {
+  width: 50%;
+  padding: 20px;
+  float: left;
+}
+```
+
+You expect two columns side-by-side (50% + 50% = 100%).
+
+**What actually happens:** Each column is wider than 50% (because padding is added), so the second column wraps to the next line. Layout broken.
+
+---
+
+#### **border-box: The Modern Solution**
+
+`box-sizing: border-box` changes how `width` is calculated.
+
+**What it means:** `width` and `height` apply to the **entire box** (content + padding + border). The browser calculates how much space is left for content.
+
+**Example:**
+
+```css
+div {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+**The math:**
+
+```
+Total box:  200px  ← Your width applies to the entire box
+Border:     5px (left) + 5px (right) = 10px     ← Subtracted
+Padding:    20px (left) + 20px (right) = 40px   ← Subtracted
+───────────────────────────────────────────────────────────
+Content:    150px  ← What's left for content
+```
+
+**The box is exactly 200px wide.**
+
+---
+
+**Why this is better:**
+
+When you write `width: 200px`, the box is **actually 200px wide**. No surprises. No math.
+
+Add padding? Box stays 200px.
+Add border? Box stays 200px.
+
+The content area shrinks to make room, but the **total box size stays consistent**.
+
+---
+
+Perfect idea. Let me expand that section with height comparison and a combined example:
+
+---
+
+#### **Visual Comparison 📊**
+
+##### **Width Comparison**
+
+Both boxes have the same CSS, except for `box-sizing`:
+
+```css
+/* Box 1 */
+.content-box {
+  box-sizing: content-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+}
+
+/* Box 2 */
+.border-box {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+**Result:**
+
+```
+content-box:
+┌────────────── 250px total width ──────────────┐
+│   ┌──────────── 200px content ────────────┐   │
+│   │                                       │   │
+│   │            Content area               │   │
+│   │                                       │   │
+│   └───────────────────────────────────────┘   │
+└───────────────────────────────────────────────┘
+ ↑ 5px border + 20px padding on each side
+
+
+border-box:
+    ┌───────── 200px total width ───────────┐
+    │    ┌─────── 150px content ───────┐    │
+    │    │                             │    │
+    │    │       Content area          │    │
+    │    │                             │    │
+    │    └─────────────────────────────┘    │
+    └───────────────────────────────────────┘
+ ↑ 5px border + 20px padding on each side
+```
+
+**content-box:** Width you set (200px) ≠ actual width (250px)
+
+**border-box:** Width you set (200px) = actual width (200px) ✅
+
+---
+
+##### **Height Comparison**
+
+Same principle applies to height:
+
+```css
+/* Box 1 */
+.content-box {
+  box-sizing: content-box;
+  height: 100px;
+  padding: 20px;
+  border: 5px solid black;
+}
+
+/* Box 2 */
+.border-box {
+  box-sizing: border-box;
+  height: 100px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+**Result:**
+
+```
+content-box:
+┌─────────┐ ↑
+│         │ │ 5px border
+│ ┌─────┐ │ │ 20px padding
+│ │     │ │ │
+│ │     │ │ │ 100px content
+│ │     │ │ │
+│ │     │ │ │
+│ └─────┘ │ │ 20px padding
+│         │ │ 5px border
+└─────────┘ ↓
+150px total height
+
+
+border-box:
+┌─────────┐ ↑
+│         │ │ 5px border
+│ ┌─────┐ │ │ 20px padding
+│ │     │ │ │ 50px content
+│ └─────┘ │ │ 20px padding
+│         │ │ 5px border
+└─────────┘ ↓
+100px total height
+```
+
+**content-box:** Height you set (100px) ≠ actual height (150px)
+
+**border-box:** Height you set (100px) = actual height (100px) ✅
+
+---
+
+##### **Combined Width & Height Example**
+
+Both dimensions work the same way simultaneously:
+
+```css
+/* Box 1 */
+.content-box {
+  box-sizing: content-box;
+  width: 200px;
+  height: 100px;
+  padding: 20px;
+  border: 5px solid black;
+}
+
+/* Box 2 */
+.border-box {
+  box-sizing: border-box;
+  width: 200px;
+  height: 100px;
+  padding: 20px;
+  border: 5px solid black;
+}
+```
+
+**Result:**
+
+```
+content-box:
+┌──────────── 250px total ───────────┐ ↑
+│  ┌──────── 200px content ───────┐  │ │
+│  │                              │  │ │
+│  │       Content area           │  │ │ 150px total
+│  │                              │  │ │
+│  └──────────────────────────────┘  │ │
+└────────────────────────────────────┘ ↓
+
+
+border-box:
+   ┌──────────── 200px total ───────────┐ ↑
+   │    ┌────── 150px content ─────┐    │ │ 100px total
+   │    │       Content area       │    │ │
+   │    └──────────────────────────┘    │ │
+   └────────────────────────────────────┘ ↓
+```
+
+**content-box:**
+
+- Width you set (200px) → actual width (250px)
+- Height you set (100px) → actual height (150px)
+
+**border-box:**
+
+- Width you set (200px) → actual width (200px) ✅
+- Height you set (100px) → actual height (100px) ✅
+
+**The takeaway:** With `border-box`, both dimensions behave predictably. What you set is what you get.
+
+---
+
+## **Does this make it crystal clear that `box-sizing` affects both dimensions?**
+
+#### **Important Exception ⚠️**
+
+Not all elements default to `content-box`. Some elements **already use `border-box` by default** in browsers:
+
+**Elements that default to `border-box`:**
+
+- `<table>`
+- `<select>`
+- `<button>`
+- `<input>` elements with types: `radio`, `checkbox`, `reset`, `button`, `submit`, `color`, `search`
+
+**Why this matters:**
+
+Form elements and tables already behave the "modern" way. But divs, paragraphs, sections, etc. don't.
+
+This inconsistency is confusing, which is why developers use a global reset to make **everything** use `border-box`.
+
+---
+
+#### **The Standard Reset ♻️**
+
+Almost every modern CSS project starts with this:
+
+```css
+* {
+  box-sizing: border-box;
+}
+```
+
+**What this does:** Sets `border-box` on **all elements** (`*` = universal selector).
+
+**Why this is standard:**
+
+1. **Predictable sizing** - `width: 200px` means 200px, always
+2. **Consistent behavior** - All elements calculate size the same way
+3. **Prevents layout headaches** - Adding padding/borders doesn't break layouts
+4. **Industry consensus** - Even the CSS Working Group admits `border-box` should have been the default
+
+**Put this at the top of every CSS file you write.**
+
+---
+
+### **Practical Examples 🧪**
+
+#### **Example 1: Two-column layout**
+
+**Without `border-box` (broken):**
+
+```css
+.column {
+  width: 50%;
+  padding: 20px;
+  border: 2px solid black;
+  float: left;
+}
+```
+
+**Problem:** Each column is wider than 50% (50% + padding + border), so they don't fit side-by-side.
+
+---
+
+**With `border-box` (works):**
+
+```css
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  width: 50%;
+  padding: 20px;
+  border: 2px solid black;
+  float: left;
+}
+```
+
+**Solution:** Each column is exactly 50% wide, including padding and border. They fit perfectly.
+
+---
+
+#### **Example 2: Card with spacing**
+
+```css
+.card {
+  box-sizing: border-box;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid lightgray;
+  margin: 20px;
+  background-color: white;
+}
+```
+
+**Result:** A 300px-wide card with internal spacing, a border, and external spacing from other elements. The width stays 300px no matter what padding or border you add.
+
+---
+
+### **Margin: Always Outside the Box ⚠️**
+
+**Critical rule:** Margin is **never** included in `width` or `height`, regardless of `box-sizing`.
+
+```css
+div {
+  box-sizing: border-box;
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+  margin: 30px;
+}
+```
+
+**Total space taken:**
+
+```
+Box width:  200px  (includes content + padding + border)
+Margin:     30px (left) + 30px (right) = 60px  (always outside)
+───────────────────────────────────────────────────────────
+Total:      260px
+```
+
+**The element itself is 200px wide, but it pushes other elements 260px away.**
+
+Margin creates space BETWEEN elements, not within them.
+
+---
+
+### **Common Box Model Properties 📝**
+
+#### **Width and Height**
+
+```css
+div {
+  width: 300px;
+  height: 200px;
+}
+```
+
+Sets the size of the box.
+
+- In `content-box`: Applies to content only
+- In `border-box`: Applies to content + padding + border
+
+**Responsive width:**
+
+```css
+div {
+  width: 100%; /* Full width of parent */
+  max-width: 800px; /* But never wider than 800px */
+}
+```
+
+---
+
+#### **Padding**
+
+```css
+/* All sides */
+padding: 20px;
+
+/* Vertical | Horizontal */
+padding: 10px 20px;
+
+/* Top | Right | Bottom | Left */
+padding: 10px 15px 20px 25px;
+
+/* Individual sides */
+padding-top: 10px;
+padding-right: 15px;
+padding-bottom: 20px;
+padding-left: 25px;
+```
+
+---
+
+#### **Margin**
+
+```css
+/* Same syntax as padding */
+margin: 20px;
+margin: 10px 20px;
+margin: 10px 15px 20px 25px;
+
+/* Centering a block element */
+margin: 0 auto; /* top/bottom: 0, left/right: auto (centers) */
+```
+
+---
+
+#### **Border**
+
+```css
+/* Shorthand */
+border: 2px solid black;
+
+/* Individual properties */
+border-width: 2px;
+border-style: solid; /* solid, dashed, dotted, none */
+border-color: black;
+
+/* Individual sides */
+border-top: 1px solid gray;
+border-bottom: 2px dashed blue;
+```
+
+---
+
+### **Debugging Box Model Issues 🔍**
+
+**Use browser DevTools to visualize the box model:**
+
+1. Right-click element → Inspect
+2. Look at the **Styles panel**
+3. Scroll to the **box model diagram** at the bottom
+
+You'll see a visual representation showing:
+
+- Content size (center)
+- Padding (usually green/light color)
+- Border (usually yellow/medium color)
+- Margin (usually orange/dark color)
+
+**Hover over each layer** in the diagram to see it highlighted on the actual page.
+
+**This helps you see:**
+
+- Is padding pushing content too far from the edge?
+- Is margin creating too much space between elements?
+- Is the total box width what you expected?
+
+---
+
+### **Common Mistakes 🐛**
+
+#### **Mistake 1: Not using border-box**
+
+```css
+.box {
+  width: 50%;
+  padding: 20px;
+}
+```
+
+Without `box-sizing: border-box`, this box is wider than 50%.
+
+**Fix:** Add the border-box reset at the top of your CSS:
+
+```css
+* {
+  box-sizing: border-box;
+}
+```
+
+---
+
+#### **Mistake 2: Using margin for internal spacing**
+
+```css
+/* Wrong - margin pushes AWAY from other elements */
+.card {
+  margin: 20px;
+}
+```
+
+**Correct - padding adds space INSIDE:**
+
+```css
+.card {
+  padding: 20px;
+}
+```
+
+**Remember:** Padding = inside, Margin = outside.
+
+---
+
+#### **Mistake 3: Not accounting for border in layout**
+
+If you don't use `border-box`, adding a border breaks your layout because it increases width/height.
+
+**Solution:** Always use `box-sizing: border-box`.
+
+---
+
+### **Key Takeaways 💡**
+
+1. **Every element is a box** with four layers: content, padding, border, margin
+2. **`box-sizing` determines what `width` and `height` measure:**
+   - `content-box` (default) = width/height apply to content only, padding/border added on top
+   - `border-box` (modern) = width/height apply to entire box including padding/border
+3. **Always use `* { box-sizing: border-box; }`** at the top of your CSS
+4. **Padding = inside spacing** (between content and border)
+5. **Margin = outside spacing** (between elements)
+6. **Margin is never included in width or height,** regardless of `box-sizing`
+7. **Use DevTools** to visualize and debug the box model
+
+---
+
+## **Colors & Units 🎨📏**
+
+CSS properties need **values**. When you write `color: blue`, `blue` is the value. When you write `font-size: 16px`, `16px` is the value.
+
+This section covers the two most fundamental types of values:
+
+- **Colors** - for properties like `color`, `background-color`, `border-color`
+- **Units** - for properties like `width`, `height`, `font-size`, `margin`, `padding`
+
+---
+
+### **Colors 🎨**
+
+CSS gives you multiple ways to specify colors. They all produce the same result. It's just different syntax.
+
+---
+
+#### **Named Colors**
+
+CSS has 140+ predefined color names you can use directly.
+
+**Syntax:**
+
+```css
+color: colorname;
+```
+
+**Examples:**
+
+```css
+h1 {
+  color: red;
+}
+
+p {
+  color: blue;
+}
+
+div {
+  background-color: hotpink;
+}
+```
+
+**Common named colors:**
+
+- `black`, `white`, `gray`
+- `red`, `green`, `blue`
+- `yellow`, `orange`, `purple`, `pink`
+- `lightblue`, `darkgreen`, `lightgray`
+- `transparent` (special keyword for no color)
+
+**Full list:** [MDN Named Colors](https://developer.mozilla.org/en-US/docs/Web/CSS/named-color)
+
+**When to use:** Quick prototyping, simple projects, or when you need basic colors fast.
+
+**Limitation:** Only 140 colors available. For custom brand colors, you'll need other methods.
+
+---
+
+#### **Hexadecimal Colors (Hex)**
+
+Hex colors use a 6-character code representing Red, Green, and Blue values.
+
+**Syntax:**
+
+```css
+color: #RRGGBB;
+```
+
+**Examples:**
+
+```css
+h1 {
+  color: #ff0000; /* Red */
+}
+
+p {
+  color: #0000ff; /* Blue */
+}
+
+div {
+  background-color: #ff69b4; /* Hotpink */
+}
+```
+
+**How it works:**
+
+- `#` = hex color indicator
+- `RR` = Red value (00-FF)
+- `GG` = Green value (00-FF)
+- `BB` = Blue value (00-FF)
+
+**Reading hex colors:**
+
+```css
+#ff0000  /* Red at max (FF), Green at 0, Blue at 0 */
+#00ff00  /* Green at max (FF), Red at 0, Blue at 0 */
+#0000ff  /* Blue at max (FF), Red at 0, Green at 0 */
+#000000  /* Black (all at 0) */
+#ffffff  /* White (all at max) */
+#808080  /* Gray (all equal, mid-range) */
+```
+
+**Shorthand (3-character hex):**
+
+When the pairs are identical, you can shorten it:
+
+```css
+#ff0000  →  #f00  /* Red */
+#00ff00  →  #0f0  /* Green */
+#ffffff  →  #fff  /* White */
+```
+
+**When to use:** Most common in professional projects. Design tools (Figma, Photoshop) typically export hex values.
+
+---
+
+#### **RGB and RGBA Colors**
+
+RGB specifies colors using Red, Green, and Blue values as numbers (0-255).
+
+**Syntax:**
+
+```css
+color: rgb(red, green, blue);
+color: rgba(red, green, blue, alpha);
+```
+
+**Examples:**
+
+```css
+h1 {
+  color: rgb(255, 0, 0); /* Red */
+}
+
+p {
+  color: rgb(0, 0, 255); /* Blue */
+}
+
+div {
+  background-color: rgb(255, 105, 180); /* Hotpink */
+}
+```
+
+**RGBA adds transparency (alpha channel):**
+
+```css
+div {
+  background-color: rgba(255, 0, 0, 0.5); /* Red at 50% opacity */
+}
+```
+
+**Alpha values:**
+
+- `0` = fully transparent (invisible)
+- `0.5` = 50% transparent (semi-transparent)
+- `1` = fully opaque (solid color)
+
+**When to use:**
+
+- When you need transparency (`rgba`)
+- When working with tools that output RGB values
+- When you find RGB easier to read than hex
+
+---
+
+#### **HSL and HSLA Colors**
+
+HSL stands for Hue, Saturation, Lightness. It's a more intuitive way to work with colors.
+
+**Syntax:**
+
+```css
+color: hsl(hue, saturation%, lightness%);
+color: hsla(hue, saturation%, lightness%, alpha);
+```
+
+**Parameters:**
+
+- **Hue** (0-360) = Color on the color wheel
+  - `0` or `360` = Red
+  - `120` = Green
+  - `240` = Blue
+- **Saturation** (0%-100%) = Intensity of the color
+  - `0%` = Gray (no color)
+  - `100%` = Full color
+- **Lightness** (0%-100%) = Brightness
+  - `0%` = Black
+  - `50%` = Normal color
+  - `100%` = White
+
+**Examples:**
+
+```css
+h1 {
+  color: hsl(0, 100%, 50%); /* Red */
+}
+
+p {
+  color: hsl(240, 100%, 50%); /* Blue */
+}
+
+div {
+  background-color: hsl(330, 100%, 71%); /* Hotpink */
+}
+```
+
+**HSLA adds transparency:**
+
+```css
+div {
+  background-color: hsla(0, 100%, 50%, 0.5); /* Red at 50% opacity */
+}
+```
+
+**Why HSL is useful:**
+
+Creating color variations is easier:
+
+```css
+.base {
+  background-color: hsl(200, 70%, 50%); /* Base blue */
+}
+
+.lighter {
+  background-color: hsl(200, 70%, 70%); /* Same hue, lighter */
+}
+
+.darker {
+  background-color: hsl(200, 70%, 30%); /* Same hue, darker */
+}
+```
+
+You just adjust the lightness value—hue and saturation stay the same.
+
+**When to use:** When you need to create color variations (lighter/darker shades) or when working with color schemes systematically.
+
+---
+
+#### **Which Color Format to Use? 🤔**
+
+| Format       | Best For                                            |
+| ------------ | --------------------------------------------------- |
+| **Named**    | Quick prototyping, basic colors                     |
+| **Hex**      | Most common in production, design tool output       |
+| **RGB/RGBA** | When you need transparency, some design tools       |
+| **HSL/HSLA** | Creating color variations, systematic color schemes |
+
+**In practice:** Hex is most common. Use RGBA or HSLA when you need transparency.
+
+---
+
+#### **Color Tools 🛠️**
+
+**Finding colors:**
+
+- [Coolors.co](https://coolors.co) - Color palette generator
+- [Adobe Color](https://color.adobe.com) - Color wheel and schemes
+- [Image Color Picker](https://imagecolorpicker.com/) - color picker either from uploaded picture or directly from screen
+- Browser DevTools - Click on any color in the Styles panel to open a color picker
+
+**Converting between formats:**
+
+Most code editors and DevTools let you click a color and switch between hex, RGB, and HSL.
+
+---
+
+### **Units 📏**
+
+Units define measurements for properties like `width`, `height`, `font-size`, `margin`, `padding`, etc.
+
+---
+
+#### **Absolute Units**
+
+**Pixels (`px`)**
+
+The most common unit. One pixel = one dot on the screen.
+
+```css
+div {
+  width: 300px;
+  height: 200px;
+  font-size: 16px;
+  padding: 20px;
+}
+```
+
+**When to use:**
+
+- Borders (almost always `px`)
+- Small, fixed measurements
+- When you need precise control
+
+**Limitation:** Not responsive by default. A 300px box is always 300px, regardless of screen size.
+
+---
+
+#### **Relative Units**
+
+Relative units scale based on something else (parent element, viewport size, root font size).
+
+**Percentage (`%`)**
+
+Relative to the **parent element**.
+
+```css
+.parent {
+  width: 500px;
+}
+
+.child {
+  width: 50%; /* 50% of 500px = 250px */
+}
+```
+
+**Common uses:**
+
+```css
+div {
+  width: 100%; /* Full width of parent */
+  width: 50%; /* Half width of parent */
+}
+
+img {
+  max-width: 100%; /* Never wider than parent */
+}
+```
+
+**When to use:** Fluid layouts, responsive images, flexible sizing.
+
+---
+
+**`rem` (Root EM)**
+
+Relative to the **root element's font size** (usually `<html>`).
+
+By default, browsers set `1rem = 16px` (because default font size is 16px).
+
+```css
+html {
+  font-size: 16px; /* Default, often not explicitly set */
+}
+
+h1 {
+  font-size: 2rem; /* 2 × 16px = 32px */
+}
+
+p {
+  font-size: 1rem; /* 1 × 16px = 16px */
+}
+
+div {
+  padding: 1.5rem; /* 1.5 × 16px = 24px */
+}
+```
+
+**Why `rem` is useful:**
+
+Change the root font size, and everything scales proportionally:
+
+```css
+html {
+  font-size: 20px; /* Increase base size */
+}
+
+h1 {
+  font-size: 2rem; /* Now 2 × 20px = 40px */
+}
+```
+
+**When to use:** Typography, spacing, responsive design.
+
+**Note:** 📱 `rem` is crucial for responsive design. We'll cover responsive strategies with `rem` in detail in [css-responsive.md](./css-responsive.md).
+
+---
+
+**`em`**
+
+Relative to the **parent element's font size**.
+
+```css
+.parent {
+  font-size: 20px;
+}
+
+.child {
+  font-size: 1.5em; /* 1.5 × 20px = 30px */
+  padding: 1em; /* 1 × 30px = 30px (relative to child's own font-size) */
+}
+```
+
+**Tricky behavior:** `em` compounds when nested.
+
+```css
+.parent {
+  font-size: 16px;
+}
+
+.child {
+  font-size: 1.5em; /* 1.5 × 16px = 24px */
+}
+
+.grandchild {
+  font-size: 1.5em; /* 1.5 × 24px = 36px (not 1.5 × 16px!) */
+}
+```
+
+**When to use:** Spacing relative to an element's own font size (like padding inside a button).
+
+**Most of the time, use `rem` instead of `em`** to avoid compounding issues.
+
+---
+
+**Viewport Units (`vw`, `vh`, `vmin`, `vmax`)**
+
+Relative to the **viewport** (browser window) size.
+
+- `vw` = Viewport Width (1vw = 1% of viewport width)
+- `vh` = Viewport Height (1vh = 1% of viewport height)
+- `vmin` = Smaller of `vw` or `vh`
+- `vmax` = Larger of `vw` or `vh`
+
+**Examples:**
+
+```css
+div {
+  width: 50vw; /* 50% of viewport width */
+  height: 100vh; /* Full viewport height */
+}
+
+h1 {
+  font-size: 5vw; /* Font size scales with viewport width */
+}
+```
+
+**When to use:**
+
+- Full-screen sections (`height: 100vh`)
+- Hero sections
+- Responsive typography (with caution)
+
+**Note:** 📱 Viewport units are powerful for responsive design. We'll cover advanced viewport unit strategies in [css-responsive.md](./css-responsive.md).
+
+---
+
+#### **Unit Comparison Table 📊**
+
+| Unit   | Type     | Relative To                | Common Use                             |
+| ------ | -------- | -------------------------- | -------------------------------------- |
+| `px`   | Absolute | Fixed size                 | Borders, precise measurements          |
+| `%`    | Relative | Parent element             | Fluid widths, responsive layouts       |
+| `rem`  | Relative | Root font size             | Typography, spacing, responsive design |
+| `em`   | Relative | Parent font size           | Button padding, nested typography      |
+| `vw`   | Relative | Viewport width             | Full-screen sections, responsive font  |
+| `vh`   | Relative | Viewport height            | Full-screen sections                   |
+| `vmin` | Relative | Smaller viewport dimension | Advanced responsive                    |
+| `vmax` | Relative | Larger viewport dimension  | Advanced responsive                    |
+
+---
+
+#### **Which Unit to Use? 🤔**
+
+**General guidelines:**
+
+- **Borders:** Almost always `px` (e.g., `border: 1px solid black`)
+- **Font sizes:** `rem` (scalable, accessible)
+- **Spacing (margin/padding):** `rem` or `px`
+- **Widths:** `%` for fluid layouts, `px` for fixed
+- **Heights:** `px`, `vh`, or `auto`
+- **Full-screen sections:** `100vh`
+
+**Example combining units:**
+
+```css
+.container {
+  max-width: 1200px; /* px - fixed max width */
+  width: 90%; /* % - fluid within parent */
+  margin: 2rem auto; /* rem - scalable spacing */
+  padding: 1.5rem; /* rem - scalable spacing */
+  border: 1px solid gray; /* px - precise border */
+}
+
+h1 {
+  font-size: 2.5rem; /* rem - scalable typography */
+}
+
+.hero {
+  height: 100vh; /* vh - full viewport height */
+}
+```
+
+---
+
+### **Common Mistakes 🐛**
+
+#### **Mistake 1: Using px for everything**
+
+```css
+/* Not responsive */
+div {
+  font-size: 16px;
+  padding: 20px;
+  margin: 30px;
+}
+```
+
+**Better:**
+
+```css
+/* Scales with user preferences */
+div {
+  font-size: 1rem;
+  padding: 1.25rem;
+  margin: 1.875rem;
+}
+```
+
+---
+
+#### **Mistake 2: Forgetting units**
+
+```css
+/* Wrong - no unit */
+div {
+  width: 300;
+  height: 200;
+}
+```
+
+**Correct:**
+
+```css
+div {
+  width: 300px;
+  height: 200px;
+}
+```
+
+**Exception:** `0` doesn't need a unit (but it doesn't hurt to include it).
+
+```css
+margin: 0; /* Valid */
+margin: 0px; /* Also valid */
+```
+
+---
+
+#### **Mistake 3: Using rem/em without understanding the base**
+
+```css
+div {
+  font-size: 2rem; /* How big is this? */
+}
+```
+
+You need to know the root font size (usually 16px by default).
+
+`2rem = 2 × 16px = 32px`
+
+---
+
+#### **Mistake 4: Using viewport units for everything**
+
+```css
+/* Don't do this */
+p {
+  font-size: 3vw; /* Font shrinks/grows with viewport, can be too small or huge */
+}
+```
+
+Viewport units for font size need careful constraints (we'll cover this in responsive design).
+
+---
+
+### **Key Takeaways 💡**
+
+**Colors:**
+
+1. **Named colors** for quick use, **hex** for production
+2. **RGBA/HSLA** when you need transparency
+3. **HSL** when creating color variations
+4. Use color pickers in DevTools to find and convert colors
+
+**Units:**
+
+1. **`px`** for borders and precise measurements
+2. **`rem`** for typography and spacing (scales with root font size)
+3. **`%`** for fluid layouts
+4. **`vw`/`vh`** for viewport-based sizing
+5. **Always include units** (except for `0`)
+6. **Responsive units** (`rem`, `vw`, `vh`) are covered in depth in [css-responsive.md](./css-responsive.md)
+
+---
+
+## **Common Properties ✨**
+
+CSS has hundreds of properties, but you'll use a core set regularly. This section covers the most common ones, organized by category.
+
+---
+
+### **Typography 📝**
+
+Properties that control text appearance.
+
+#### **`color`**
+
+Sets the text color.
+
+```css
+p {
+  color: blue;
+  color: #333333;
+  color: rgb(50, 50, 50);
+}
+```
+
+---
+
+Great question. Let me add a proper explanation of how font stacks work.
+
+---
+
+#### **`font-family`**
+
+Sets the font.
+
+```css
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  font-family: "Times New Roman", serif;
+}
+```
+
+---
+
+**Understanding Font Stacks 📚**
+
+A font stack is a **list of fonts in order of preference**. The browser tries each font from left to right and uses the first one it finds installed on the user's system.
+
+**Example breakdown:**
+
+```css
+font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+```
+
+**What happens:**
+
+1. Browser checks: "Does the user have 'Franklin Gothic Medium'?"
+   - **Yes** → Use it ✅
+   - **No** → Try next font
+2. Browser checks: "Does the user have 'Arial Narrow'?"
+   - **Yes** → Use it ✅
+   - **No** → Try next font
+3. Browser checks: "Does the user have 'Arial'?"
+   - **Yes** → Use it ✅
+   - **No** → Try next font
+4. Browser uses: `sans-serif` (generic fallback - browser picks any sans-serif font)
+
+---
+
+**Font Stack Rules 📏**
+
+1. **Most specific → Most generic** (left to right)
+2. **Quotes for multi-word names:** `'Franklin Gothic Medium'`, `'Times New Roman'`
+3. **No quotes for single-word names:** `Arial`, `Georgia`
+4. **Always end with a generic family:** `serif`, `sans-serif`, `monospace`, etc.
+5. **Separate fonts with commas**
+
+---
+
+**How to Build Your Own Font Stack 🛠️**
+
+**Strategy:** Include fonts available on different operating systems, then end with a generic fallback.
+
+**Example 1: Sans-serif stack**
+
+```css
+font-family:
+  -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+  Cantarell, sans-serif;
+```
+
+**Breakdown:**
+
+- `-apple-system` - macOS/iOS system font
+- `BlinkMacSystemFont` - Chrome on macOS
+- `'Segoe UI'` - Windows system font
+- `Roboto` - Android system font
+- `Oxygen` - KDE Linux
+- `Ubuntu` - Ubuntu Linux
+- `Cantarell` - GNOME Linux
+- `sans-serif` - Generic fallback
+
+This covers every major platform.
+
+---
+
+**Example 2: Serif stack**
+
+```css
+font-family: Georgia, "Times New Roman", Times, serif;
+```
+
+**Breakdown:**
+
+- `Georgia` - Widely available, good web font
+- `'Times New Roman'` - Windows fallback
+- `Times` - macOS/Linux fallback
+- `serif` - Generic fallback
+
+---
+
+**Example 3: Monospace stack (for code)**
+
+```css
+font-family: "Courier New", Courier, monospace;
+```
+
+---
+
+**Where VS Code Gets Those Suggestions 🤖**
+
+VS Code's autocomplete suggests **common, safe font stacks** that:
+
+- Work across Windows, macOS, and Linux
+- Include fonts most users have installed
+- Provide good fallbacks
+
+**You don't need to memorize these.** VS Code (and other editors) give you proven combinations.
+
+---
+
+**Common Safe Font Stacks 📋**
+
+**Sans-serif (modern, clean):**
+
+```css
+/* System font stack (most modern) */
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+/* Helvetica stack */
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+/* Arial stack */
+font-family: Arial, Helvetica, sans-serif;
+```
+
+**Serif (traditional, readable):**
+
+```css
+/* Georgia stack */
+font-family: Georgia, "Times New Roman", Times, serif;
+
+/* Times stack */
+font-family: "Times New Roman", Times, serif;
+```
+
+**Monospace (code):**
+
+```css
+font-family: "Courier New", Courier, monospace;
+
+/* Or modern code fonts */
+font-family: "Monaco", "Menlo", "Consolas", "Courier New", monospace;
+```
+
+---
+
+**When Do You Need Quotes? 🤔**
+
+**Need quotes:**
+
+```css
+font-family: "Times New Roman", serif; /* Multi-word name */
+font-family: "Segoe UI", sans-serif;
+```
+
+**Don't need quotes (but OK to use them):**
+
+```css
+font-family: Arial, sans-serif; /* Single word */
+font-family: Georgia, serif;
+```
+
+**Generic families NEVER get quotes:**
+
+```css
+font-family: Arial, sans-serif; /* Correct */
+font-family: Arial, "sans-serif"; /* Wrong! */
+```
+
+---
+
+**Web Fonts vs System Fonts 🌐**
+
+**System fonts** (what we've been discussing):
+
+- Already installed on user's computer
+- Load instantly
+- Limited selection
+
+**Web fonts** (Google Fonts, custom fonts):
+
+- Downloaded from a server
+- Need to be loaded in your HTML or CSS
+- Unlimited selection
+- We'll cover these in a future section
+
+For now, **use VS Code's suggestions**—they're safe, tested font stacks.
+
+---
+
+**Quick Decision Guide 🎯**
+
+**Don't overthink it. For most projects:**
+
+**Body text (easy to read):**
+
+```css
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+```
+
+**Headings (if you want something different):**
+
+```css
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+```
+
+**Code:**
+
+```css
+code {
+  font-family: "Courier New", monospace;
+}
+```
+
+**That's it. Everything else is optimization.**
+
+---
+
+#### **`font-size`**
+
+Sets the size of text.
+
+```css
+h1 {
+  font-size: 2rem;
+  font-size: 32px;
+  font-size: 200%;
+}
+```
+
+---
+
+#### **`font-weight`**
+
+Sets text thickness (boldness).
+
+```css
+p {
+  font-weight: normal; /* 400 */
+  font-weight: bold; /* 700 */
+  font-weight: lighter;
+  font-weight: 600; /* Numeric value (100-900) */
+}
+```
+
+**Common values:**
+
+- `normal` = 400
+- `bold` = 700
+- `100-900` = Specific weights (if font supports them)
+
+---
+
+#### **`font-style`**
+
+Sets italic or normal text.
+
+```css
+em {
+  font-style: italic;
+}
+
+p {
+  font-style: normal;
+}
+```
+
+---
+
+#### **`text-align`**
+
+Aligns text horizontally.
+
+```css
+h1 {
+  text-align: left; /* Default for LTR languages */
+  text-align: center;
+  text-align: right;
+  text-align: justify; /* Spreads text to fill line */
+}
+```
+
+---
+
+#### **`text-decoration`**
+
+Adds or removes text decorations.
+
+```css
+a {
+  text-decoration: underline; /* Default for links */
+  text-decoration: none; /* Remove underline */
+  text-decoration: line-through; /* Strikethrough */
+  text-decoration: overline;
+}
+```
+
+---
+
+#### **`text-transform`**
+
+Changes text capitalization.
+
+```css
+h1 {
+  text-transform: uppercase; /* ALL CAPS */
+  text-transform: lowercase; /* all lowercase */
+  text-transform: capitalize; /* First Letter Capitalized */
+  text-transform: none; /* Normal */
+}
+```
+
+---
+
+#### **`line-height`**
+
+Sets the space between lines of text.
+
+```css
+p {
+  line-height: 1.5; /* 1.5 times the font size (most common) */
+  line-height: 24px;
+  line-height: 150%;
+}
+```
+
+**Best practice:** Use unitless values (like `1.5`) for better inheritance.
+
+---
+
+#### **`letter-spacing`**
+
+Adjusts space between characters.
+
+```css
+h1 {
+  letter-spacing: 2px; /* Add space */
+  letter-spacing: -1px; /* Reduce space */
+}
+```
+
+---
+
+#### **`word-spacing`**
+
+Adjusts space between words.
+
+```css
+p {
+  word-spacing: 5px;
+}
+```
+
+---
+
+### **Layout & Sizing 📐**
+
+Properties that control element dimensions and positioning.
+
+#### **`width` / `height`**
+
+Sets element dimensions.
+
+```css
+div {
+  width: 300px;
+  width: 50%;
+  width: 100vw;
+
+  height: 200px;
+  height: 100vh;
+}
+```
+
+---
+
+#### **`max-width` / `min-width`**
+
+Sets maximum and minimum width constraints.
+
+```css
+div {
+  width: 100%;
+  max-width: 1200px; /* Never wider than 1200px */
+  min-width: 300px; /* Never narrower than 300px */
+}
+```
+
+**Same for height:** `max-height`, `min-height`
+
+---
+
+#### **`display`**
+
+Controls how an element is displayed.
+
+```css
+div {
+  display: block; /* Takes full width, new line */
+  display: inline; /* Flows with text, no line break */
+  display: inline-block; /* Flows with text but can have width/height */
+  display: flex; /* Flexbox container */
+  display: grid; /* Grid container */
+  display: none; /* Element hidden (not rendered) */
+}
+```
+
+**Common uses:**
+
+- `display: none` - Hide element completely
+- `display: block` - Make inline element behave like block
+- `display: inline-block` - Make element flow inline but accept width/height
+
+---
+
+#### **`visibility`**
+
+Controls element visibility.
+
+```css
+div {
+  visibility: visible; /* Default, element shown */
+  visibility: hidden; /* Element hidden but still takes up space */
+}
+```
+
+**Difference from `display: none`:**
+
+- `display: none` - Element removed from layout (no space)
+- `visibility: hidden` - Element invisible but still takes up space
+
+---
+
+#### **`opacity`**
+
+Controls transparency.
+
+```css
+div {
+  opacity: 1; /* Fully opaque (default) */
+  opacity: 0.5; /* 50% transparent */
+  opacity: 0; /* Fully transparent (invisible) */
+}
+```
+
+**Values:** 0 (transparent) to 1 (opaque)
+
+---
+
+### **Spacing 📦**
+
+Properties covered in Box Model section, summarized here:
+
+#### **`margin`**
+
+Space outside an element.
+
+```css
+div {
+  margin: 20px; /* All sides */
+  margin: 10px 20px; /* Vertical | Horizontal */
+  margin: 10px 20px 15px 25px; /* Top Right Bottom Left */
+
+  margin-top: 10px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+  margin-left: 25px;
+}
+```
+
+---
+
+#### **`padding`**
+
+Space inside an element, between content and border.
+
+```css
+div {
+  padding: 20px; /* All sides */
+  padding: 10px 20px; /* Vertical | Horizontal */
+  padding: 10px 20px 15px 25px; /* Top Right Bottom Left */
+
+  padding-top: 10px;
+  padding-right: 20px;
+  padding-bottom: 15px;
+  padding-left: 25px;
+}
+```
+
+---
+
+### **Backgrounds 🖼️**
+
+Properties that control element backgrounds.
+
+#### **`background-color`**
+
+Sets background color.
+
+```css
+div {
+  background-color: lightblue;
+  background-color: #f0f0f0;
+  background-color: rgba(255, 0, 0, 0.5);
+}
+```
+
+---
+
+#### **`background-image`**
+
+Sets a background image.
+
+```css
+div {
+  background-image: url("image.jpg");
+  background-image: url("https://example.com/image.png");
+}
+```
+
+---
+
+#### **`background-size`**
+
+Controls how background image is sized.
+
+```css
+div {
+  background-size: cover; /* Scale to cover entire element */
+  background-size: contain; /* Scale to fit inside element */
+  background-size: 100px 200px; /* Specific dimensions */
+  background-size: 50%; /* Percentage of element */
+}
+```
+
+**Most common:** `background-size: cover` for full-width images.
+
+---
+
+#### **`background-position`**
+
+Controls where background image is positioned.
+
+```css
+div {
+  background-position: center;
+  background-position: top left;
+  background-position: bottom right;
+  background-position: 50% 50%; /* Center */
+}
+```
+
+---
+
+#### **`background-repeat`**
+
+Controls if/how background image repeats.
+
+```css
+div {
+  background-repeat: repeat; /* Default, tiles in both directions */
+  background-repeat: no-repeat; /* Don't repeat */
+  background-repeat: repeat-x; /* Repeat horizontally only */
+  background-repeat: repeat-y; /* Repeat vertically only */
+}
+```
+
+---
+
+#### **Background Shorthand**
+
+Combine multiple background properties:
+
+```css
+div {
+  background: #f0f0f0 url("image.jpg") no-repeat center/cover;
+  /*          ↑         ↑                ↑          ↑       ↑
+              color     image            repeat     position size
+  */
+}
+```
+
+---
+
+### **Borders 🔲**
+
+Properties that control element borders.
+
+#### **`border`**
+
+Sets border width, style, and color.
+
+```css
+div {
+  border: 2px solid black;
+  border: 1px dashed gray;
+  border: 5px dotted red;
+}
+```
+
+**Syntax:** `border: width style color;`
+
+---
+
+#### **Border Individual Properties**
+
+```css
+div {
+  border-width: 2px;
+  border-style: solid; /* solid, dashed, dotted, double, none */
+  border-color: black;
+}
+```
+
+---
+
+#### **Border Individual Sides**
+
+```css
+div {
+  border-top: 1px solid black;
+  border-right: 2px dashed gray;
+  border-bottom: 1px solid black;
+  border-left: 2px dashed gray;
+}
+```
+
+Or more specific:
+
+```css
+div {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: black;
+}
+```
+
+---
+
+#### **`border-radius`**
+
+Rounds corners.
+
+```css
+div {
+  border-radius: 10px; /* All corners */
+  border-radius: 10px 20px; /* Top-left/bottom-right, Top-right/bottom-left */
+  border-radius: 10px 20px 30px 40px; /* Individual corners */
+  border-radius: 50%; /* Circle (on a square element) */
+}
+```
+
+**Individual corners:**
+
+```css
+div {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 40px;
+}
+```
+
+---
+
+### **Cursor 👆**
+
+Changes the mouse cursor appearance.
+
+```css
+button {
+  cursor: pointer; /* Hand pointer (common for clickable elements) */
+}
+
+a {
+  cursor: pointer; /* Default for links */
+}
+
+input:disabled {
+  cursor: not-allowed; /* Indicates disabled state */
+}
+
+.draggable {
+  cursor: move;
+}
+
+.loading {
+  cursor: wait;
+}
+```
+
+**Common values:**
+
+- `default` - Normal arrow
+- `pointer` - Hand with pointing finger
+- `text` - I-beam for text selection
+- `move` - Four-directional arrows
+- `not-allowed` - Circle with slash
+- `wait` - Loading spinner
+
+---
+
+### **Lists 📋**
+
+Properties for styling lists.
+
+#### **`list-style-type`**
+
+Sets the marker style for list items.
+
+```css
+ul {
+  list-style-type: disc; /* Filled circle (default) */
+  list-style-type: circle; /* Hollow circle */
+  list-style-type: square; /* Square */
+  list-style-type: none; /* No marker */
+}
+
+ol {
+  list-style-type: decimal; /* 1, 2, 3 (default) */
+  list-style-type: upper-alpha; /* A, B, C */
+  list-style-type: lower-alpha; /* a, b, c */
+  list-style-type: upper-roman; /* I, II, III */
+  list-style-type: lower-roman; /* i, ii, iii */
+}
+```
+
+**Common use:** `list-style-type: none` to remove bullets/numbers (often for navigation menus).
+
+---
+
+#### **`list-style-position`**
+
+Controls marker position.
+
+```css
+ul {
+  list-style-position: outside; /* Default, marker outside content */
+  list-style-position: inside; /* Marker inside content flow */
+}
+```
+
+---
+
+### **Property Categories Quick Reference 📚**
+
+| Category        | Common Properties                                                               |
+| --------------- | ------------------------------------------------------------------------------- |
+| **Typography**  | `color`, `font-family`, `font-size`, `font-weight`, `text-align`, `line-height` |
+| **Sizing**      | `width`, `height`, `max-width`, `min-width`                                     |
+| **Spacing**     | `margin`, `padding`                                                             |
+| **Backgrounds** | `background-color`, `background-image`, `background-size`                       |
+| **Borders**     | `border`, `border-radius`                                                       |
+| **Display**     | `display`, `visibility`, `opacity`                                              |
+| **Interaction** | `cursor`                                                                        |
+| **Lists**       | `list-style-type`                                                               |
+
+---
+
+### **Where to Learn More 🔍**
+
+**Full property references:**
+
+- [MDN CSS Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+- [CSS-Tricks Almanac](https://css-tricks.com/almanac/properties/)
+
+**Interactive practice:**
+
+- Browser DevTools - Edit properties live and see results instantly
+
+---
