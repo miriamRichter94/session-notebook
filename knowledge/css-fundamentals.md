@@ -1,46 +1,99 @@
 # CSS Fundamentals
 
-- [What CSS Is & How It Works](#what-css-is--how-it-works-)
-  - [How HTML, CSS, and JavaScript Work Together](#how-html-css-and-javascript-work-together-️)
-  - [What "Cascading" Means](#what-cascading-means-)
-  - [What "Style Sheets" Means](#what-style-sheets-means-)
-  - [How Browsers Apply CSS](#how-browsers-apply-css-)
-  - [CSS is About Selectors and Declarations](#css-is-about-selectors-and-declarations-)
-  - [Why CSS is Separate from HTML](#why-css-is-separate-from-html-)
-  - [CSS Controls Visual Properties](#css-controls-visual-properties-)
-  - [What CSS Cannot Do](#what-css-cannot-do-)
-- [Your First CSS File](#your-first-css-file-)
-  - [Step 1: Create Your CSS File](#step-1-create-your-css-file-)
-  - [Step 2: Link CSS to Your HTML](#step-2-link-css-to-your-html-)
-  - [Step 3: Write Your First CSS Rule](#step-3-write-your-first-css-rule-️)
-  - [Step 4: View It in Your Browser](#step-4-view-it-in-your-browser-)
-  - [Step 5: Add More Styles](#step-5-add-more-styles-)
-  - [Understanding What Just Happened](#understanding-what-just-happened-)
-  - [The Edit-Save-Refresh Cycle](#the-edit-save-refresh-cycle-) -[Multiple Rules for the Same Element](#multiple-rules-for-the-same-element-)
-  - [Why This Approach is Powerful](#why-this-approach-is-powerful-)
-  - [What If My Styles Don't Show Up?](#what-if-my-styles-dont-show-up-)
-- [CSS Syntax & Rules](#css-syntax--rules-)
-  - [Anatomy of a CSS Rule](#anatomy-of-a-css-rule-)
-  - [The Four Parts of a CSS Rule](#the-four-parts-of-a-css-rule-)
-  - [Writing Your First Rule](#writing-your-first-rule-️)
-  - [Multiple Declarations](#multiple-declarations-)
-  - [Syntax Rules You MUST Follow & Common Mistakes](#syntax-rules-you-must-follow---common-mistakes-)
-  - [How to Check for Syntax Errors](#how-to-check-for-syntax-errors-)
-  - [Spacing and Formatting](#spacing-and-formatting-)
-  - [Indentation Best Practice](#indentation-best-practice-)
-  - [Multiple Rules in a Stylesheet](#multiple-rules-in-a-stylesheet-)
-  - [Comments in CSS](#comments-in-css-)
-  - [Grouping Selectors](#grouping-selectors-)
-  - [Practice: Write a Complete Rule](#practice-write-a-complete-rule-)
-- [Selectors: Simple to Advanced](#selectors-simple-to-advanced-)
-  - [What is a Selector?](#what-is-a-selector-)
-  - [Level 1: Basic Selectors](#level-1-basic-selectors-)
-  - [Level 2: Combining Selectors](#level-2-combining-selectors-)
-  - [Level 3: Attribute Selectors](#level-3-attribute-selectors-)
-  - [Level 4: Pseudo-Classes](#level-4-pseudo-classes-)
-  - [Selector Combinations in Practice](#selector-combinations-in-practice-)
-  - [Selector Specificity Preview](#selector-specificity-preview-)
-  - [When to Use Which Selector?](#when-to-use-which-selector-)
+- [What CSS Is & How It Works 🎨](#what-css-is--how-it-works-)
+  - [How HTML, CSS, and JavaScript Work Together 🛠️](#how-html-css-and-javascript-work-together-️)
+  - [What "Cascading" Means 🌊](#what-cascading-means-)
+  - [What "Style Sheets" Means 📄](#what-style-sheets-means-)
+  - [How Browsers Apply CSS 🌐](#how-browsers-apply-css-)
+  - [CSS is About Selectors and Declarations 🎯](#css-is-about-selectors-and-declarations-)
+  - [Why CSS is Separate from HTML 🔗](#why-css-is-separate-from-html-)
+  - [CSS Controls Visual Properties 🎨](#css-controls-visual-properties-)
+  - [What CSS Cannot Do ❌](#what-css-cannot-do-)
+- [Your First CSS File 🚀](#your-first-css-file-)
+  - [Step 1: Create Your CSS File 📄]()
+  - [Step 2: Link CSS to Your HTML 🔗]()
+  - [Step 3: Write Your First CSS Rule ✍️]()
+  - [Step 4: View It in Your Browser 👀]()
+  - [Step 5: Add More Styles 🎨]()
+  - [Understanding What Just Happened 💡]()
+  - [The Edit-Save-Refresh Cycle 🔄]()
+  - [Multiple Rules for the Same Element ✨]()
+  - [Why This Approach is Powerful 💪]()
+  - [What If My Styles Don't Show Up? 🐞]()
+  - [Checking If CSS is Loaded 🔍]()
+  - [Your Workflow Going Forward 🛠️]()
+- [CSS Syntax & Rules 📝](#css-syntax--rules-)
+  - [Anatomy of a CSS Rule 🔍](#anatomy-of-a-css-rule-)
+  - [The Four Parts of a CSS Rule 🧩](#the-four-parts-of-a-css-rule-)
+  - [Writing Your First Rule ✍️](#writing-your-first-rule-️)
+  - [Multiple Declarations 📋](#multiple-declarations-)
+  - [Syntax Rules You MUST Follow 🚨 & Common Mistakes 🐞](#syntax-rules-you-must-follow---common-mistakes-)
+  - [How to Check for Syntax Errors 🔍](#how-to-check-for-syntax-errors-)
+  - [Spacing and Formatting 📐](#spacing-and-formatting-)
+  - [Indentation Best Practice 📏](#indentation-best-practice-)
+  - [Multiple Rules in a Stylesheet 📄](#multiple-rules-in-a-stylesheet-)
+  - [Comments in CSS 💬](#comments-in-css-)
+  - [Grouping Selectors 🎯](#grouping-selectors-)
+  - [Practice: Write a Complete Rule 🧪](#practice-write-a-complete-rule-)
+- [Selectors: Simple to Advanced 🎯](#selectors-simple-to-advanced-)
+  - [What is a Selector? 🤔](#what-is-a-selector-)
+  - [Level 1: Basic Selectors 🟢](#level-1-basic-selectors-)
+  - [Level 2: Combining Selectors 🟡](#level-2-combining-selectors-)
+  - [Level 3: Attribute Selectors 🟠](#level-3-attribute-selectors-)
+  - [Level 4: Pseudo-Classes 🔵](#level-4-pseudo-classes-)
+  - [Selector Specificity Preview 🔍](#selector-specificity-preview-)
+  - [When to Use Which Selector? 🤷](#when-to-use-which-selector-)
+- [Cascade, Specificity & Inheritance 🌊](#cascade-specificity--inheritance-)
+  - [Why This Matters 💡](#why-this-matters-)
+  - [The Cascade: Conflict Resolution 🌊](#the-cascade-conflict-resolution-)
+  - [Inheritance: What Passes Down 👨‍👩‍👧‍👦](#inheritance-what-passes-down-)
+  - [How They Work Together 🧩](#how-they-work-together-)
+  - [Debugging Strategy 🔍](#debugging-strategy-)
+  - [Using Browser DevTools to Debug CSS 🛠️](#using-browser-devtools-to-debug-css-️)
+  - [Best Practices 💡](#best-practices-)
+- [Box Model 📦](#box-model-)
+  - [The Four Layers 🧅](#the-four-layers-)
+  - [The Width Problem 🤔](#the-width-problem-)
+  - [The box-sizing Property 🎛️](#the-box-sizing-property-️)
+  - [Practical Examples 🧪](#practical-examples-)
+  - [Margin: Always Outside the Box ⚠️](#margin-always-outside-the-box-️)
+  - [Common Box Model Properties 📝](#common-box-model-properties-)
+  - [Debugging Box Model Issues 🔍](#debugging-box-model-issues-)
+  - [Common Mistakes 🐞](#common-mistakes-)
+  - [Key Takeaways 💡](#key-takeaways-)
+- [Colors & Units 🎨📏](#colors--units-)
+  - [Colors 🎨](#colors-)
+  - [Units 📏](#units-)
+  - [Common Mistakes 🐞](#common-mistakes--1)
+  - [Key Takeaways 💡](#key-takeaways--1)
+- [Common Properties ✨](#common-properties)
+  - [Typography 📝](#typography-)
+  - [Layout & Sizing 📐](#layout--sizing-)
+  - [Spacing 📦](#spacing-)
+  - [Backgrounds 🖼️](#backgrounds-️)
+  - [Borders 🔲](#borders-)
+  - [Property Categories Quick Reference 📚](#property-categories-quick-reference-)
+  - [Where to Learn More 🔍](#where-to-learn-more-)
+- [Common Mistakes & Debugging 🐞](#common-mistakes--debugging-)
+  - [Common Mistakes 🚫](#common-mistakes--2)
+  - [Debugging Strategy 🔍](#debugging-strategy--1)
+  - [Essential Debugging Tools 🛠️](#essential-debugging-tools-️)
+  - [Quick Debugging Checklist ✅](#quick-debugging-checklist-)
+  - [Key Takeaways 💡](#key-takeaways--2)
+- [Quick Reference 📚](#quick-reference-)
+  - [CSS Syntax](#css-syntax)
+  - [Common Selectors](#common-selectors)
+  - [Specificity](#specificity)
+  - [The Cascade](#the-cascade)
+  - [Box Model](#box-model)
+  - [Common Properties](#common-properties)
+  - [Color Formats](#color-formats)
+  - [Units](#units)
+  - [Inheritance](#inheritance)
+  - [Debugging Checklist](#debugging-checklist)
+  - [Essential Code Snippets](#essential-code-snippets)
+  - [Helpful Resources](#helpful-resources)
+  - [Next Steps](#next-steps)
 
 ---
 
@@ -463,7 +516,7 @@ Change the CSS once → all headings update automatically. 🎯
 
 ---
 
-### **What If My Styles Don't Show Up? 🐛**
+### **What If My Styles Don't Show Up? 🐞**
 
 **Common mistakes:**
 
@@ -2762,7 +2815,7 @@ You'll see a visual representation showing:
 
 ---
 
-### **Common Mistakes 🐛**
+### **Common Mistakes 🐞**
 
 #### **Mistake 1: Not using border-box**
 
@@ -3322,7 +3375,7 @@ h1 {
 
 ---
 
-### **Common Mistakes 🐛**
+### **Common Mistakes 🐞**
 
 #### **Mistake 1: Using px for everything**
 
