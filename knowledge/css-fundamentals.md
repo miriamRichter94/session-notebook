@@ -4231,3 +4231,989 @@ ul {
 - Browser DevTools - Edit properties live and see results instantly
 
 ---
+
+## **Common Mistakes & Debugging 🐞**
+
+CSS can be frustrating when things don't work as expected. This section covers the most common mistakes beginners make and how to troubleshoot CSS issues effectively.
+
+---
+
+### **Common Mistakes 🚫**
+
+#### **Mistake 1: CSS File Not Loading**
+
+**Symptoms:** None of your styles appear, page looks completely unstyled.
+
+**Common causes:**
+
+**Wrong file path:**
+
+```html
+<!-- Wrong - file is in css folder -->
+<link rel="stylesheet" href="styles.css" />
+
+<!-- Correct -->
+<link rel="stylesheet" href="css/styles.css" />
+```
+
+**Typo in filename:**
+
+```html
+<!-- Wrong - file is named styles.css -->
+<link rel="stylesheet" href="style.css" />
+
+<!-- Correct -->
+<link rel="stylesheet" href="styles.css" />
+```
+
+**Missing `rel` attribute:**
+
+```html
+<!-- Wrong -->
+<link href="styles.css" />
+
+<!-- Correct -->
+<link rel="stylesheet" href="styles.css" />
+```
+
+**Link in wrong place:**
+
+```html
+<!-- Wrong - link must be in <head> -->
+<body>
+  <link rel="stylesheet" href="styles.css" />
+</body>
+
+<!-- Correct -->
+<head>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+```
+
+**How to check:**
+
+1. Open browser DevTools (F12)
+2. Go to **Network** tab
+3. Refresh the page
+4. Look for your CSS file
+   - **Green/200 status** = loaded successfully ✅
+   - **Red/404 status** = file not found ❌
+
+---
+
+#### **Mistake 2: Selector Doesn't Match**
+
+**Symptoms:** Your CSS rule doesn't apply to the element you're targeting.
+
+**Common causes:**
+
+**Class name typo:**
+
+```html
+<div class="container">Content</div>
+```
+
+```css
+/* Wrong - typo in class name */
+.containr {
+  background-color: blue;
+}
+
+/* Correct */
+.container {
+  background-color: blue;
+}
+```
+
+**Forgetting the dot for classes:**
+
+```css
+/* Wrong - missing dot */
+container {
+  background-color: blue;
+}
+
+/* Correct */
+.container {
+  background-color: blue;
+}
+```
+
+**Using # instead of . (or vice versa):**
+
+```html
+<div class="header">Content</div>
+```
+
+```css
+/* Wrong - using # for a class */
+#header {
+  background-color: blue;
+}
+
+/* Correct */
+.header {
+  background-color: blue;
+}
+```
+
+**How to check:**
+
+1. Right-click element → Inspect
+2. Look at **Styles panel**
+3. If your rule doesn't appear at all, the selector isn't matching
+
+---
+
+#### **Mistake 3: Property Name Misspelled**
+
+**Symptoms:** Property is crossed out in DevTools or silently ignored.
+
+**Common typos:**
+
+```css
+/* Wrong */
+div {
+  colour: blue; /* British spelling */
+  backround-color: red; /* Missing 'g' */
+  text-allign: center; /* Extra 'l' */
+  margn: 10px; /* Missing 'i' */
+  padd: 20px; /* Incomplete */
+}
+
+/* Correct */
+div {
+  color: blue;
+  background-color: red;
+  text-align: center;
+  margin: 10px;
+  padding: 20px;
+}
+```
+
+**How to check:**
+
+- VS Code will underline invalid properties
+- DevTools crosses out invalid properties
+- Use [W3C CSS Validator](https://jigsaw.w3.org/css-validator/)
+
+---
+
+#### **Mistake 4: Missing Semicolon**
+
+**Symptoms:** The property after the missing semicolon doesn't work.
+
+```css
+/* Wrong - missing semicolon after color */
+div {
+  color: blue
+  font-size: 20px; /* This gets ignored */
+}
+
+/* Correct */
+div {
+  color: blue;
+  font-size: 20px;
+}
+```
+
+**See also:** Syntax rules in [Section 3: CSS Syntax & Rules](#css-syntax--rules)
+
+---
+
+#### **Mistake 5: Forgetting Units**
+
+**Symptoms:** Property doesn't work or has unexpected behavior.
+
+```css
+/* Wrong - no units */
+div {
+  width: 300;
+  padding: 20;
+  font-size: 16;
+}
+
+/* Correct */
+div {
+  width: 300px;
+  padding: 20px;
+  font-size: 16px;
+}
+```
+
+**Exception:** `0` doesn't need a unit (but adding one doesn't hurt).
+
+```css
+margin: 0; /* Valid */
+margin: 0px; /* Also valid */
+```
+
+---
+
+#### **Mistake 6: Wrong Value Type**
+
+**Symptoms:** Property is crossed out or ignored in DevTools.
+
+```css
+/* Wrong - invalid values */
+div {
+  color: 20px; /* Color needs color value, not size */
+  width: blue; /* Width needs size, not color */
+  font-size: bold; /* font-size needs size, not weight */
+  display: italic; /* Not a valid display value */
+}
+
+/* Correct */
+div {
+  color: blue;
+  width: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  font-style: italic;
+  display: block;
+}
+```
+
+---
+
+#### **Mistake 7: Overridden by More Specific Rule**
+
+**Symptoms:** Your style appears in DevTools but is crossed out.
+
+```css
+p {
+  color: blue; /* Less specific */
+}
+
+.highlight {
+  color: red; /* More specific - wins */
+}
+```
+
+```html
+<p class="highlight">I'm red, not blue</p>
+```
+
+**See also:** Specificity explained in [Section 5: Cascade, Specificity & Inheritance](#cascade-specificity--inheritance)
+
+---
+
+#### **Mistake 8: Browser Cache**
+
+**Symptoms:** Changes in CSS file don't appear in browser.
+
+**Problem:** Browser cached the old version of your CSS file.
+
+**Solutions:**
+
+1. **Hard refresh:**
+   - Windows/Linux: `Ctrl + Shift + R` or `Ctrl + F5`
+   - Mac: `Cmd + Shift + R`
+
+2. **Disable cache in DevTools:**
+   - Open DevTools (F12)
+   - Go to **Network** tab
+   - Check "Disable cache"
+   - Keep DevTools open while developing
+
+3. **Open in incognito/private mode** (no cache)
+
+---
+
+#### **Mistake 9: Not Saving Files**
+
+**Symptoms:** Changes don't appear no matter what you do.
+
+**Solution:** Make sure you saved your CSS file (Ctrl+S / Cmd+S) before refreshing the browser.
+
+**VS Code tip:** Enable **Auto Save** in File menu to avoid this.
+
+---
+
+#### **Mistake 10: Using Margin for Internal Spacing**
+
+**Symptoms:** Spacing pushes other elements away instead of creating space inside.
+
+```css
+/* Wrong - pushes card away from other elements */
+.card {
+  margin: 20px;
+}
+```
+
+```css
+/* Correct - creates space inside the card */
+.card {
+  padding: 20px;
+}
+```
+
+**Remember:**
+
+- **Padding** = space INSIDE (between content and border)
+- **Margin** = space OUTSIDE (between elements)
+
+**See also:** Box Model in [Section 6: Box Model](#box-model)
+
+---
+
+#### **Mistake 11: Not Using `box-sizing: border-box`**
+
+**Symptoms:** Elements are wider/taller than expected when you add padding or borders.
+
+```css
+/* Without border-box */
+div {
+  width: 200px;
+  padding: 20px;
+  border: 5px solid black;
+  /* Total width: 250px (not 200px!) */
+}
+```
+
+**Solution:** Add this at the top of your CSS:
+
+```css
+* {
+  box-sizing: border-box;
+}
+```
+
+**See also:** Box sizing explained in [Section 6: Box Model](#box-model)
+
+---
+
+### **Debugging Strategy 🔍**
+
+When your CSS isn't working, follow this systematic approach:
+
+---
+
+#### **Step 1: Is the CSS File Loading?**
+
+**Check:**
+
+1. Open DevTools (F12) → **Network** tab
+2. Refresh page
+3. Look for your CSS file in the list
+
+**If missing/red:**
+
+- Check file path in `<link>` tag
+- Check filename spelling
+- Check file location
+
+---
+
+#### **Step 2: Is Your Selector Matching?**
+
+**Check:**
+
+1. Right-click element → **Inspect**
+2. Look at **Styles panel** on the right
+3. Is your rule visible?
+
+**If not visible:**
+
+- Selector doesn't match the element
+- Check for typos in class/id names
+- Check if you're using `.` for classes and `#` for IDs
+
+**If visible but crossed out:**
+
+- Another rule is overriding it (specificity issue)
+- See [Step 4](#step-4-check-specificity)
+
+---
+
+#### **Step 3: Is the Property Name Correct?**
+
+**Check:**
+
+1. Look in **Styles panel**
+2. Invalid properties are crossed out or have a warning icon
+
+**Common issues:**
+
+- Typo in property name
+- Using non-existent property
+
+**Fix:** Check spelling against [MDN CSS Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+
+---
+
+#### **Step 4: Check Specificity**
+
+**If your property is crossed out:**
+
+Another rule with higher specificity is overriding it.
+
+**In DevTools:**
+
+1. Look at the Styles panel
+2. Rules are listed from highest to lowest specificity
+3. The first non-crossed-out property is the one being applied
+
+**Solutions:**
+
+- Make your selector more specific
+- Or better: Restructure your CSS to avoid specificity wars
+- Avoid using IDs for styling (too specific)
+
+**See also:** [Section 5: Cascade, Specificity & Inheritance](#cascade-specificity--inheritance)
+
+---
+
+#### **Step 5: Check the Value**
+
+**Check:**
+
+- Is the value valid for that property?
+- Did you include units for numbers (except `0`)?
+- Did you spell color names correctly?
+
+**Examples:**
+
+```css
+/* Invalid */
+width: blue; /* Width needs size, not color */
+color: 20px; /* Color needs color, not size */
+padding: 20; /* Missing unit */
+
+/* Valid */
+width: 200px;
+color: blue;
+padding: 20px;
+```
+
+---
+
+#### **Step 6: Check Browser Compatibility**
+
+Some newer CSS properties don't work in older browsers.
+
+**Check:**
+
+- [Can I Use](https://caniuse.com) - Shows browser support for CSS features
+- DevTools console - May show warnings for unsupported features
+
+---
+
+#### **Step 7: Isolate the Problem**
+
+**Technique: Comment out code**
+
+```css
+div {
+  /* color: blue; */
+  /* font-size: 20px; */
+  padding: 20px; /* Test one property at a time */
+}
+```
+
+Un-comment properties one by one to find which one is causing the issue.
+
+---
+
+#### **Step 8: Start Fresh**
+
+Create a minimal test case:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .test {
+        color: red; /* Does this work? */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="test">Test</div>
+  </body>
+</html>
+```
+
+If it works here but not in your project, the problem is elsewhere (file loading, specificity, etc.).
+
+---
+
+### **Essential Debugging Tools 🛠️**
+
+#### **Browser DevTools**
+
+**How to open:**
+
+- Windows/Linux: `F12` or `Ctrl + Shift + I`
+- Mac: `Cmd + Option + I`
+- Or right-click → **Inspect**
+
+**Key panels:**
+
+**Elements/Inspector:**
+
+- See HTML structure
+- See which CSS rules apply to each element
+- Edit CSS live (changes are temporary)
+
+**Styles panel:**
+
+- Shows all CSS rules for selected element
+- Crossed-out properties are overridden
+- Click property values to edit them live
+- Click checkbox to disable/enable properties
+
+**Computed panel:**
+
+- Shows final computed values for all properties
+- Useful for seeing what the browser actually applied
+
+**Network panel:**
+
+- Check if CSS files loaded successfully
+- Look for 404 errors (file not found)
+
+---
+
+#### **Live Editing in DevTools**
+
+**You can edit CSS directly in the browser:**
+
+1. Right-click element → Inspect
+2. In Styles panel, click on a value
+3. Type new value
+4. Press Enter
+
+**Changes are temporary** - they disappear when you refresh. Use this to test ideas, then copy working styles back to your CSS file.
+
+---
+
+#### **W3C CSS Validator**
+
+**Link:** [https://jigsaw.w3.org/css-validator/](https://jigsaw.w3.org/css-validator/)
+
+**What it does:**
+
+- Checks your CSS for errors
+- Finds typos in property names
+- Finds invalid values
+- Finds syntax errors
+
+**How to use:**
+
+1. Go to validator website
+2. Upload your CSS file or paste CSS code
+3. Click "Check"
+4. Fix any errors shown
+
+---
+
+### **Quick Debugging Checklist ✅**
+
+When CSS isn't working, check in this order:
+
+1. ☐ Did I save the CSS file?
+2. ☐ Is the CSS file loading? (Check Network tab)
+3. ☐ Is my selector correct? (Check for typos, `.` vs `#`)
+4. ☐ Is my property name spelled correctly?
+5. ☐ Did I include units for measurements?
+6. ☐ Did I include semicolons?
+7. ☐ Is another rule overriding mine? (Check specificity)
+8. ☐ Did I hard refresh the browser? (Ctrl+Shift+R)
+9. ☐ Does it work in DevTools when I edit it live?
+10. ☐ Is the property supported in my browser?
+
+---
+
+### **Key Takeaways 💡**
+
+1. **Always check if CSS file loaded** before debugging rules
+2. **Use DevTools Styles panel** to see which rules apply and why
+3. **Crossed-out properties** = overridden by more specific rule
+4. **Missing properties** in Styles panel = selector doesn't match
+5. **Hard refresh** (Ctrl+Shift+R) to clear cache
+6. **Validate your CSS** to catch typos and syntax errors
+7. **Edit live in DevTools** to test changes before updating files
+8. **Work systematically** - check one thing at a time
+
+---
+
+## **Quick Reference 📚**
+
+A condensed reference for quick lookups. For detailed explanations, see the relevant sections above.
+
+---
+
+### **CSS Syntax**
+
+```css
+selector {
+  property: value;
+  property: value;
+}
+```
+
+**Example:**
+
+```css
+.button {
+  color: white;
+  background-color: blue;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+```
+
+**Rules:**
+
+- Colon (`:`) between property and value
+- Semicolon (`;`) after each declaration
+- Curly braces (`{}`) wrap declarations
+- Property names are lowercase
+
+---
+
+### **Common Selectors**
+
+| Selector            | Syntax           | Example              | Selects                          |
+| ------------------- | ---------------- | -------------------- | -------------------------------- |
+| **Universal**       | `*`              | `* { margin: 0; }`   | All elements                     |
+| **Type**            | `element`        | `p { color: blue; }` | All `<p>` elements               |
+| **Class**           | `.classname`     | `.button { }`        | Elements with `class="button"`   |
+| **ID**              | `#idname`        | `#header { }`        | Element with `id="header"`       |
+| **Descendant**      | `parent child`   | `div p { }`          | `<p>` inside `<div>` (any depth) |
+| **Direct child**    | `parent > child` | `div > p { }`        | `<p>` directly inside `<div>`    |
+| **Grouping**        | `sel1, sel2`     | `h1, h2 { }`         | All `<h1>` and `<h2>`            |
+| **Attribute**       | `[attr]`         | `[type] { }`         | Elements with `type` attribute   |
+| **Attribute value** | `[attr="val"]`   | `[type="text"] { }`  | Elements where `type="text"`     |
+| **Pseudo-class**    | `:pseudo`        | `a:hover { }`        | Links when hovered               |
+
+---
+
+### **Specificity**
+
+**From weakest to strongest:**
+
+1. Universal selector (`*`) - 0-0-0
+2. Type selectors (`p`, `div`) - 0-0-1
+3. Classes (`.button`), attributes (`[type]`), pseudo-classes (`:hover`) - 0-1-0
+4. IDs (`#header`) - 1-0-0
+5. Inline styles (`style="..."`) - 1-0-0-0
+6. `!important` - Overrides everything (avoid using)
+
+**Calculating specificity:**
+
+| Selector           | IDs | Classes/Attributes/Pseudo | Types | Specificity |
+| ------------------ | --- | ------------------------- | ----- | ----------- |
+| `p`                | 0   | 0                         | 1     | 0-0-1       |
+| `.button`          | 0   | 1                         | 0     | 0-1-0       |
+| `#header`          | 1   | 0                         | 0     | 1-0-0       |
+| `nav .menu a`      | 0   | 1                         | 2     | 0-1-2       |
+| `#main .content p` | 1   | 1                         | 1     | 1-1-1       |
+
+**Rule:** Higher numbers win. Compare left to right.
+
+**Visual guide:**
+
+![CSS Specificity Chart](assets/specificityChart.png)
+
+---
+
+### **The Cascade**
+
+When multiple rules conflict, the browser checks:
+
+1. **Importance** - `!important` wins (avoid using)
+2. **Specificity** - More specific selector wins
+3. **Source Order** - Last rule wins (if specificity is equal)
+
+---
+
+### **Box Model**
+
+```
+┌──────────── MARGIN ────────────┐
+│                                │
+│   ┌──────── BORDER ────────┐   │
+│   │                        │   │
+│   │   ┌──── PADDING ───┐   │   │
+│   │   │                │   │   │
+│   │   │    CONTENT     │   │   │
+│   │   │                │   │   │
+│   │   └────────────────┘   │   │
+│   │                        │   │
+│   └────────────────────────┘   │
+│                                │
+└────────────────────────────────┘
+```
+
+**Key properties:**
+
+- `width` / `height` - Size of content (in `content-box`) or total box (in `border-box`)
+- `padding` - Space inside, between content and border
+- `border` - Edge of element
+- `margin` - Space outside, pushes other elements away
+
+**Always use:**
+
+```css
+* {
+  box-sizing: border-box;
+}
+```
+
+---
+
+### **Common Properties**
+
+#### **Typography**
+
+| Property          | Values                                 | Example                           |
+| ----------------- | -------------------------------------- | --------------------------------- |
+| `color`           | color                                  | `color: blue;`                    |
+| `font-family`     | font names                             | `font-family: Arial, sans-serif;` |
+| `font-size`       | size                                   | `font-size: 16px;`                |
+| `font-weight`     | `normal`, `bold`, `100-900`            | `font-weight: bold;`              |
+| `font-style`      | `normal`, `italic`                     | `font-style: italic;`             |
+| `text-align`      | `left`, `center`, `right`, `justify`   | `text-align: center;`             |
+| `text-decoration` | `none`, `underline`, `line-through`    | `text-decoration: none;`          |
+| `text-transform`  | `uppercase`, `lowercase`, `capitalize` | `text-transform: uppercase;`      |
+| `line-height`     | number, size                           | `line-height: 1.5;`               |
+
+---
+
+#### **Layout & Sizing**
+
+| Property                  | Values                                                    | Example               |
+| ------------------------- | --------------------------------------------------------- | --------------------- |
+| `width` / `height`        | size                                                      | `width: 300px;`       |
+| `max-width` / `min-width` | size                                                      | `max-width: 1200px;`  |
+| `display`                 | `block`, `inline`, `inline-block`, `flex`, `grid`, `none` | `display: flex;`      |
+| `visibility`              | `visible`, `hidden`                                       | `visibility: hidden;` |
+| `opacity`                 | `0` to `1`                                                | `opacity: 0.5;`       |
+
+---
+
+#### **Spacing**
+
+| Property  | Values  | Example                         |
+| --------- | ------- | ------------------------------- |
+| `margin`  | size(s) | `margin: 20px;`                 |
+|           |         | `margin: 10px 20px;`            |
+|           |         | `margin: 10px 20px 15px 25px;`  |
+| `padding` | size(s) | `padding: 20px;`                |
+|           |         | `padding: 10px 20px;`           |
+|           |         | `padding: 10px 20px 15px 25px;` |
+
+**Shorthand order:** `top right bottom left` (clockwise)
+
+---
+
+#### **Backgrounds**
+
+| Property              | Values                                        | Example                             |
+| --------------------- | --------------------------------------------- | ----------------------------------- |
+| `background-color`    | color                                         | `background-color: lightblue;`      |
+| `background-image`    | `url('path')`                                 | `background-image: url('img.jpg');` |
+| `background-size`     | `cover`, `contain`, size                      | `background-size: cover;`           |
+| `background-position` | position                                      | `background-position: center;`      |
+| `background-repeat`   | `repeat`, `no-repeat`, `repeat-x`, `repeat-y` | `background-repeat: no-repeat;`     |
+
+**Shorthand:**
+
+```css
+background: color url("path") no-repeat center/cover;
+```
+
+---
+
+#### **Borders**
+
+| Property        | Values                              | Example                        |
+| --------------- | ----------------------------------- | ------------------------------ |
+| `border`        | `width style color`                 | `border: 2px solid black;`     |
+| `border-width`  | size                                | `border-width: 2px;`           |
+| `border-style`  | `solid`, `dashed`, `dotted`, `none` | `border-style: solid;`         |
+| `border-color`  | color                               | `border-color: black;`         |
+| `border-radius` | size                                | `border-radius: 10px;`         |
+|                 |                                     | `border-radius: 50%;` (circle) |
+
+**Individual sides:** `border-top`, `border-right`, `border-bottom`, `border-left`
+
+---
+
+### **Color Formats**
+
+| Format        | Syntax               | Example                           |
+| ------------- | -------------------- | --------------------------------- |
+| **Named**     | `colorname`          | `color: red;`                     |
+| **Hex**       | `#RRGGBB`            | `color: #ff0000;`                 |
+| **Hex short** | `#RGB`               | `color: #f00;`                    |
+| **RGB**       | `rgb(r, g, b)`       | `color: rgb(255, 0, 0);`          |
+| **RGBA**      | `rgba(r, g, b, a)`   | `color: rgba(255, 0, 0, 0.5);`    |
+| **HSL**       | `hsl(h, s%, l%)`     | `color: hsl(0, 100%, 50%);`       |
+| **HSLA**      | `hsla(h, s%, l%, a)` | `color: hsla(0, 100%, 50%, 0.5);` |
+
+**Alpha (transparency):** `0` = transparent, `1` = opaque
+
+---
+
+### **Units**
+
+| Unit  | Type     | Relative To      | Example  | Use For                |
+| ----- | -------- | ---------------- | -------- | ---------------------- |
+| `px`  | Absolute | Fixed            | `16px`   | Borders, precise sizes |
+| `%`   | Relative | Parent           | `50%`    | Fluid widths           |
+| `rem` | Relative | Root font size   | `1.5rem` | Typography, spacing    |
+| `em`  | Relative | Parent font size | `1.5em`  | Nested typography      |
+| `vw`  | Relative | Viewport width   | `50vw`   | Full-screen sections   |
+| `vh`  | Relative | Viewport height  | `100vh`  | Full-screen sections   |
+
+**Default:** `1rem = 16px` (browser default root font size)
+
+**Responsive units:** See [css-responsive.md](./css-responsive.md) for advanced strategies.
+
+---
+
+### **Inheritance**
+
+**Properties that inherit (mostly text-related):**
+
+- `color`
+- `font-family`, `font-size`, `font-weight`, `font-style`
+- `line-height`
+- `text-align`, `text-transform`
+- `letter-spacing`, `word-spacing`
+
+**Properties that DON'T inherit (mostly layout-related):**
+
+- `margin`, `padding`, `border`
+- `width`, `height`
+- `background-color`, `background-image`
+- `display`, `position`
+
+---
+
+### **Debugging Checklist**
+
+**When CSS doesn't work:**
+
+1. ☐ Saved the CSS file?
+2. ☐ CSS file loading? (Check Network tab)
+3. ☐ Selector correct? (Check for typos)
+4. ☐ Property spelled correctly?
+5. ☐ Units included?
+6. ☐ Semicolons included?
+7. ☐ Another rule overriding? (Check specificity)
+8. ☐ Hard refresh? (Ctrl+Shift+R)
+9. ☐ Works when edited in DevTools?
+
+---
+
+### **Essential Code Snippets**
+
+**CSS Reset:**
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
+
+**Center a block element:**
+
+```css
+.container {
+  width: 80%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+```
+
+**Full viewport height:**
+
+```css
+.hero {
+  height: 100vh;
+}
+```
+
+**Responsive image:**
+
+```css
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+**Remove link underline:**
+
+```css
+a {
+  text-decoration: none;
+}
+```
+
+**Remove list bullets:**
+
+```css
+ul {
+  list-style-type: none;
+}
+```
+
+**Button reset:**
+
+```css
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+```
+
+---
+
+### **Helpful Resources**
+
+**Documentation:**
+
+- [MDN CSS Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference) - Complete CSS property reference
+- [CSS-Tricks Almanac](https://css-tricks.com/almanac/properties/) - Properties with examples
+- [Can I Use](https://caniuse.com) - Browser compatibility checker
+
+**Validation:**
+
+- [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) - Check for errors
+
+**Color Tools:**
+
+- [Coolors](https://coolors.co) - Color palette generator
+- [Adobe Color](https://color.adobe.com) - Color wheel and schemes
+- [Image Color Picker](https://imagecolorpicker.com/) - color picker either from uploaded picture or directly from screen
+
+**Learning:**
+
+- [CSS-Tricks](https://css-tricks.com) - Tutorials and guides
+- [MDN Learn CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS) - Structured learning path
+
+---
+
+### **Next Steps**
+
+**You've completed CSS Fundamentals!** 🎉
+
+**Continue learning:**
+
+- [css-structure.md](./css-structure.md) - Organizing CSS, file structure, naming conventions, CSS variables
+- [css-positioning.md](./css-positioning.md) - Position property, z-index, floating
+- [css-flexbox.md](./css-flexbox.md) - Flexible box layouts
+- [css-grid.md](./css-grid.md) - Grid layouts
+- [css-responsive.md](./css-responsive.md) - Media queries, responsive design strategies
+- [css-accessibility.md](./css-accessibility.md) - Accessible CSS best practices
+
+---
