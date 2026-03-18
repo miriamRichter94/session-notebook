@@ -1,5 +1,117 @@
 # CSS Structure
 
+- [What is CSS Structure & Why It Matters 🏗️](#what-is-css-structure--why-it-matters-️)
+  - [The Problem: CSS That "Works" But Is a Mess 😰](#the-problem-css-that-works-but-is-a-mess-)
+  - [What Good Structure Solves ✅](#what-good-structure-solves-)
+  - [What CSS Structure Includes 📋](#what-css-structure-includes-)
+  - [The Difference: Unstructured vs Structured CSS 🆚](#the-difference-unstructured-vs-structured-css-)
+  - [The Shift in Thinking 🧠](#the-shift-in-thinking-)
+  - [Real-World Example: Small vs Large Projects 📊](#real-world-example-small-vs-large-projects-)
+  - [What You'll Learn in This Guide 📖](#what-youll-learn-in-this-guide-)
+  - [Key Principle: Start Simple, Add Structure as Needed 🎯](#key-principle-start-simple-add-structure-as-needed-)
+  - [What Makes This Different from Fundamentals? 🤔](#what-makes-this-different-from-fundamentals-)
+  - [You're Ready 🚀](#youre-ready-)
+- [File Organization Strategies 📂](#file-organization-strategies-)
+  - [Strategy 1: Single File (Simple Projects) 📄](#strategy-1-single-file-simple-projects-)
+  - [Strategy 2: Multiple Files (Medium Projects) 📑](#strategy-2-multiple-files-medium-projects-)
+  - [Strategy 3: Component-Based (Large Projects) 🗂️](#strategy-3-component-based-large-projects-️)
+  - [File Naming Conventions 📝](#file-naming-conventions-)
+  - [Folder Structure Best Practices 🗂️](#folder-structure-best-practices-️)
+  - [When to Split Files 🤔](#when-to-split-files-)
+  - [Performance Considerations ⚡](#performance-considerations-)
+  - [Summary: Which Strategy to Use? 🎯](#summary-which-strategy-to-use-)
+  - [Real-World Example 💼](#real-world-example-)
+- [Importing Stylesheets 📥](#importing-stylesheets-)
+  - [Method 1: Multiple `<link>` Tags (HTML) 🔗](#method-1-multiple-link-tags-html-)
+  - [Method 2: `@import` in CSS 📥](#method-2-import-in-css-)
+  - [Nested Folders with `@import` 📂](#nested-folders-with-import-)
+  - [Combining Both Methods 🔀](#combining-both-methods-)
+  - [Which Method to Use? 🤔](#which-method-to-use-)
+  - [Performance: `<link>` vs `@import` ⚡](#performance-link-vs-import-)
+  - [Common Mistakes 🐞](#common-mistakes-)
+  - [Build Tools & Production 🛠️](#build-tools--production-️)
+  - [Practical Example 💼](#practical-example-)
+  - [Key Takeaways 💡](#key-takeaways-)
+- [The DRY Principle ♻️](#the-dry-principle-️)
+  - [What is the DRY Principle? 🤔](#what-is-the-dry-principle-)
+  - [Why Repetition is Bad ❌](#why-repetition-is-bad-)
+  - [Technique 1: Group Selectors 🎯](#technique-1-group-selectors-)
+  - [Technique 2: Extract Common Styles into Base Classes 📦](#technique-2-extract-common-styles-into-base-classes-)
+  - [Technique 3: Use CSS Variables 🔧](#technique-3-use-css-variables-)
+  - [Technique 4: Create Utility Classes 🛠️](#technique-4-create-utility-classes-️)
+  - [Real-World Example: Buttons 🔘](#real-world-example-buttons-)
+  - [Real-World Example: Spacing System 📏](#real-world-example-spacing-system-)
+  - [When NOT to Use DRY 🚫](#when-not-to-use-dry-)
+  - [DRY Checklist ✅](#dry-checklist-)
+  - [Practical Workflow 🛠️](#practical-workflow-️)
+  - [Key Takeaways 💡](#key-takeaways--1)
+- [Naming Conventions 🏷️](#naming-conventions-️)
+  - [The Naming Problem 😰](#the-naming-problem-)
+  - [Basic Naming Rules 📏](#basic-naming-rules-)
+  - [Kebab-Case: The Standard 🔤](#kebab-case-the-standard-)
+  - [BEM: Block Element Modifier 🧱](#bem-block-element-modifier-)
+  - [When to Use BEM vs Simple Naming 🤷](#when-to-use-bem-vs-simple-naming-)
+  - [Common BEM Mistakes 🐞](#common-bem-mistakes-)
+  - [Alternative: Simplified BEM](#alternative-simplified-bem)
+  - [Real-World Example: Alert Component](#real-world-example-alert-component)
+  - [Naming Convention Decision Guide 🎯](#naming-convention-decision-guide-)
+  - [Key Takeaways 💡](#key-takeaways--2)
+- [CSS Custom Properties (Variables) 🔧](#css-custom-properties-variables-)
+  - [The Problem: Repeating Values 🔁](#the-problem-repeating-values-)
+  - [Defining Variables 📝](#defining-variables-)
+  - [Where to Define Variables: `:root` 🌳](#where-to-define-variables-root-)
+  - [Using Variables 🎯](#using-variables-)
+  - [Common Use Cases 💼](#common-use-cases-)
+  - [Variable Scope 🔍](#variable-scope-)
+  - [Fallback Values 🛟](#fallback-values-)
+  - [Practical Example: Complete Color System 🎨](#practical-example-complete-color-system-)
+  - [Practical Example: Dark Mode 🌓](#practical-example-dark-mode-)
+  - [Organizing Variables 🗂️](#organizing-variables-️)
+  - [Naming Convention for Variables 🏷️](#naming-convention-for-variables-️)
+  - [Common Mistakes 🐞](#common-mistakes--1)
+  - [Key Takeaways 💡](#key-takeaways--4)
+- [Commenting Your CSS 💬](#commenting-your-css-)
+  - [Why Comments Matter 📝](#why-comments-matter-)
+  - [Comment Syntax 📐](#comment-syntax-)
+  - [When to Comment 🤔](#when-to-comment-)
+  - [Comment Styles for Sections 🎨](#comment-styles-for-sections-)
+  - [Organizing CSS with Comments 📂](#organizing-css-with-comments-)
+  - [Component Documentation 📦](#component-documentation-)
+  - [When NOT to Comment 🚫](#when-not-to-comment-)
+  - [Practical Examples 💼](#practical-examples-)
+  - [Team Collaboration Comments 👥](#team-collaboration-comments-)
+  - [Comments for Debugging 🔍](#comments-for-debugging-)
+  - [Common Mistakes 🐞](#common-mistakes--2)
+  - [Quick Reference: Comment Template 📋](#quick-reference-comment-template-)
+  - [Key Takeaways 💡](#key-takeaways--5)
+- [Custom Fonts & Web Fonts 🔤](#custom-fonts--web-fonts-)
+  - [What are Web Fonts? 🤔](#what-are-web-fonts-)
+  - [Why Use Web Fonts? 🎨](#why-use-web-fonts-)
+  - [Method 1: Google Fonts (Easiest) 🔥](#method-1-google-fonts-easiest-)
+  - [Method 2: Self-Hosted Fonts (@font-face) 📦](#method-2-self-hosted-fonts-font-face-)
+  - [Font Formats & Browser Support 🌐](#font-formats--browser-support-)
+  - [Performance Considerations ⚡](#performance-considerations--1)
+  - [Common Mistakes 🐞](#common-mistakes--3)
+  - [Google Fonts vs Self-Hosted: Which to Use? 🤔](#google-fonts-vs-self-hosted-which-to-use-)
+  - [Practical Example: Complete Setup 💼](#practical-example-complete-setup-)
+  - [Key Takeaways 💡](#key-takeaways--6)
+- [Quick Reference 📚](#quick-reference-)
+  - [File Organization Patterns](#file-organization-patterns)
+  - [Importing Stylesheets](#importing-stylesheets)
+  - [Naming Conventions](#naming-conventions)
+  - [CSS Variables](#css-variables)
+  - [Common Variable Patterns](#common-variable-patterns)
+  - [Comment Formats](#comment-formats)
+  - [Google Fonts Setup](#google-fonts-setup)
+  - [Self-Hosted Fonts](#self-hosted-fonts)
+  - [Useful Code Snippets](#useful-code-snippets)
+  - [DRY Principle Patterns](#dry-principle-patterns)
+  - [File Organization Decision Guide](#file-organization-decision-guide)
+  - [Import Order](#import-order)
+  - [Common Mistakes to Avoid 🐞](#common-mistakes-to-avoid-)
+  - [Quick Checklist for New Projects ✅](#quick-checklist-for-new-projects-)
+  - [Helpful Resources](#helpful-resources)
+
 ---
 
 ## **What is CSS Structure & Why It Matters 🏗️**
@@ -4546,3 +4658,1321 @@ No comments needed. The code is self-explanatory.
 **The goal:** Make your CSS easy to understand and maintain for yourself and others.
 
 ---
+
+## **Custom Fonts & Web Fonts 🔤**
+
+System fonts (Arial, Times New Roman, etc.) are limited and generic. **Web fonts** let you use custom fonts on your website, giving you complete control over typography.
+
+---
+
+### **What are Web Fonts? 🤔**
+
+**System fonts:**
+
+- Pre-installed on users' computers
+- Limited selection (Arial, Helvetica, Times New Roman, etc.)
+- Load instantly (already on the system)
+- Boring and overused
+
+**Web fonts:**
+
+- Downloaded from a server when the page loads
+- Unlimited selection (thousands of fonts available)
+- Small delay while downloading
+- Unique and professional
+
+---
+
+### **Why Use Web Fonts? 🎨**
+
+**Benefits:**
+
+- ✅ Unique brand identity
+- ✅ Better design control
+- ✅ Professional appearance
+- ✅ Consistent across all devices
+
+**Example comparison:**
+
+**With system font (Arial):**
+
+```css
+body {
+  font-family: Arial, sans-serif;
+}
+```
+
+→ Generic, looks like every other website
+
+**With web font (Roboto from Google Fonts):**
+
+```css
+body {
+  font-family: "Roboto", sans-serif;
+}
+```
+
+→ Modern, professional, unique
+
+---
+
+### **Method 1: Google Fonts (Easiest) 🔥**
+
+**Google Fonts** is a free library of web fonts that's easy to use and fast to load.
+
+**Link:** [fonts.google.com](https://fonts.google.com)
+
+---
+
+#### **Step 1: Choose a Font**
+
+1. Go to [fonts.google.com](https://fonts.google.com)
+2. Browse or search for a font (e.g., "Roboto")
+3. Click on the font to see details
+
+---
+
+#### **Step 2: Select Font Weights**
+
+Fonts come in different weights (thicknesses).
+
+**Common weights:**
+
+- 300 = Light
+- 400 = Regular (normal text)
+- 500 = Medium
+- 700 = Bold (headings)
+
+**Select the weights you need:**
+
+- Click "+ Select this style" for each weight
+
+**Tip:** Only select weights you'll actually use. Each weight adds to page load time.
+
+---
+
+#### **Step 3: Get the Code**
+
+Click "View selected families" (top right corner).
+
+Google Fonts gives you two options:
+
+---
+
+**Option A: Link tag (recommended for beginners)**
+
+Copy the `<link>` tag and paste it in your HTML `<head>`:
+
+```html
+<head>
+  <meta charset="UTF-8" />
+  <title>My Site</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+```
+
+**What these lines do:**
+
+- Line 1-2: Speed up the connection to Google's servers
+- Line 3: Load the Roboto font (weights 400 and 700)
+
+---
+
+**Option B: @import (alternative method)**
+
+Copy the `@import` code and paste it at the **very top** of your CSS file:
+
+```css
+/* Must be at the very top of your CSS file */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+/* Rest of your CSS */
+body {
+  font-family: "Roboto", sans-serif;
+}
+```
+
+---
+
+#### **Step 4: Use the Font in CSS**
+
+Google Fonts provides the CSS code. Copy and use it:
+
+```css
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700; /* Bold weight */
+}
+
+p {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400; /* Regular weight */
+}
+```
+
+**Note:** Always include a fallback (`sans-serif`, `serif`, etc.) in case the font fails to load.
+
+---
+
+#### **Complete Example: Google Fonts**
+
+**HTML:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Site</title>
+
+    <!-- Google Fonts: Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Welcome to My Site</h1>
+    <p>This text uses the Roboto font from Google Fonts.</p>
+  </body>
+</html>
+```
+
+**CSS:**
+
+```css
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+h1 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+}
+```
+
+**Result:** Page loads with Roboto font instead of Arial.
+
+---
+
+#### **Using Multiple Google Fonts**
+
+You can load multiple fonts at once.
+
+**Example: Roboto for body text, Playfair Display for headings**
+
+**HTML:**
+
+```html
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+  rel="stylesheet"
+/>
+```
+
+**CSS:**
+
+```css
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+}
+```
+
+---
+
+### **Method 2: Self-Hosted Fonts (@font-face) 📦**
+
+For more control, you can **host font files yourself** using `@font-face`.
+
+**When to use:**
+
+- You have custom brand fonts
+- You want maximum control over loading
+- You don't want to rely on third-party services
+
+---
+
+#### **Step 1: Get Font Files**
+
+**Common font formats:**
+
+- `.woff2` (best, modern browsers)
+- `.woff` (fallback for older browsers)
+- `.ttf` or `.otf` (older, larger files)
+
+**Where to get fonts:**
+
+- Purchase from font foundries (MyFonts, Adobe Fonts, etc.)
+- Free fonts from [Google Fonts](https://fonts.google.com) (download button)
+- Free fonts from [Font Squirrel](https://www.fontsquirrel.com)
+
+---
+
+#### **Step 2: Add Font Files to Your Project**
+
+**Folder structure:**
+
+```
+my-project/
+├── index.html
+├── css/
+│   └── styles.css
+└── fonts/
+    ├── Roboto-Regular.woff2
+    ├── Roboto-Regular.woff
+    ├── Roboto-Bold.woff2
+    └── Roboto-Bold.woff
+```
+
+---
+
+#### **Step 3: Use @font-face in CSS**
+
+**Syntax:**
+
+```css
+@font-face {
+  font-family: "Font Name";
+  src:
+    url("path/to/font.woff2") format("woff2"),
+    url("path/to/font.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+```
+
+**Complete example:**
+
+```css
+/* Define the font */
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("../fonts/Roboto-Regular.woff2") format("woff2"),
+    url("../fonts/Roboto-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto";
+  src:
+    url("../fonts/Roboto-Bold.woff2") format("woff2"),
+    url("../fonts/Roboto-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Use the font */
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+h1 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+}
+```
+
+---
+
+#### **Understanding @font-face Properties**
+
+| Property      | Description              | Example                      |
+| ------------- | ------------------------ | ---------------------------- |
+| `font-family` | Name you'll use in CSS   | `'Roboto'`                   |
+| `src`         | Path to font files       | `url('../fonts/font.woff2')` |
+| `font-weight` | Weight of this font file | `400`, `700`                 |
+| `font-style`  | Style of this font file  | `normal`, `italic`           |
+
+**Important:** Each weight and style needs its own `@font-face` declaration.
+
+---
+
+#### **Multiple Weights Example**
+
+```css
+/* Regular (400) */
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Bold (700) */
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Italic (400) */
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+```
+
+**Usage:**
+
+```css
+p {
+  font-family: "MyFont", sans-serif;
+  font-weight: 400; /* Uses MyFont-Regular */
+}
+
+strong {
+  font-family: "MyFont", sans-serif;
+  font-weight: 700; /* Uses MyFont-Bold */
+}
+
+em {
+  font-family: "MyFont", sans-serif;
+  font-style: italic; /* Uses MyFont-Italic */
+}
+```
+
+---
+
+### **Font Formats & Browser Support 🌐**
+
+**Modern format (use this):**
+
+- `.woff2` - Best compression, supported by all modern browsers
+
+**Fallback format:**
+
+- `.woff` - Older browsers
+
+**Legacy formats (rarely needed):**
+
+- `.ttf` / `.otf` - Older browsers (IE9 and below)
+
+**Recommended approach:**
+
+```css
+@font-face {
+  font-family: "MyFont";
+  src:
+    url("../fonts/MyFont.woff2") format("woff2"),
+    url("../fonts/MyFont.woff") format("woff");
+  /* Browser tries woff2 first, falls back to woff if needed */
+}
+```
+
+---
+
+### **Performance Considerations ⚡**
+
+**Fonts can slow down your page.** Here's how to optimize:
+
+---
+
+#### **1. Only Load Weights You Need**
+
+**Bad (loads 6 weights):**
+
+```html
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap"
+  rel="stylesheet"
+/>
+```
+
+**Good (loads 2 weights):**
+
+```html
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+```
+
+**Each weight adds ~20-50KB to your page load.**
+
+---
+
+#### **2. Use `font-display` for Faster Rendering**
+
+```css
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont.woff2") format("woff2");
+  font-display: swap; /* Show fallback font immediately, swap when custom font loads */
+}
+```
+
+**`font-display` options:**
+
+| Value      | Behavior                                                                      |
+| ---------- | ----------------------------------------------------------------------------- |
+| `swap`     | Show fallback font immediately, swap to custom font when loaded (recommended) |
+| `block`    | Hide text until custom font loads (can create "flash of invisible text")      |
+| `fallback` | Short block period, then show fallback, swap if font loads quickly            |
+| `optional` | Show fallback, only swap if font loads very quickly                           |
+
+**Recommended:** Use `swap` for better user experience.
+
+---
+
+#### **3. Preconnect to Font Servers**
+
+**When using Google Fonts:**
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+```
+
+**What this does:** Establishes early connection to Google's servers, speeding up font loading.
+
+---
+
+#### **4. Limit Number of Fonts**
+
+**Bad (too many fonts):**
+
+```css
+body {
+  font-family: "Font1", sans-serif;
+}
+h1 {
+  font-family: "Font2", serif;
+}
+h2 {
+  font-family: "Font3", sans-serif;
+}
+nav {
+  font-family: "Font4", sans-serif;
+}
+```
+
+**Good (2 fonts max):**
+
+```css
+body {
+  font-family: "Roboto", sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+}
+```
+
+**Rule of thumb:** Use 1-2 fonts per project.
+
+---
+
+### **Common Mistakes 🐞**
+
+#### **Mistake 1: Wrong file path**
+
+```css
+/* Wrong - font file is in fonts/ folder */
+@font-face {
+  font-family: "MyFont";
+  src: url("MyFont.woff2") format("woff2");
+}
+
+/* Correct */
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont.woff2") format("woff2");
+}
+```
+
+**Check:** Where is your CSS file relative to the font file?
+
+---
+
+#### **Mistake 2: Forgetting font-weight in @font-face**
+
+```css
+/* Wrong - browser doesn't know this is the bold version */
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont-Bold.woff2") format("woff2");
+  /* Missing font-weight! */
+}
+
+/* Correct */
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+```
+
+---
+
+#### **Mistake 3: Not including fallback fonts**
+
+```css
+/* Bad - if font fails to load, browser uses default */
+body {
+  font-family: "Roboto";
+}
+
+/* Good - fallback to sans-serif if Roboto fails */
+body {
+  font-family: "Roboto", sans-serif;
+}
+```
+
+---
+
+#### **Mistake 4: Loading too many font weights**
+
+```html
+<!-- Bad - loads 9 weights (huge file size) -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap"
+  rel="stylesheet"
+/>
+
+<!-- Good - loads 2 weights you'll actually use -->
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+```
+
+---
+
+#### **Mistake 5: Using the wrong font name**
+
+```css
+/* Wrong - font name doesn't match @font-face declaration */
+@font-face {
+  font-family: "MyCustomFont";
+  src: url("../fonts/font.woff2") format("woff2");
+}
+
+body {
+  font-family: "CustomFont", sans-serif; /* Wrong name! */
+}
+
+/* Correct */
+body {
+  font-family: "MyCustomFont", sans-serif; /* Matches @font-face */
+}
+```
+
+---
+
+### **Google Fonts vs Self-Hosted: Which to Use? 🤔**
+
+| Factor          | Google Fonts                 | Self-Hosted (@font-face)       |
+| --------------- | ---------------------------- | ------------------------------ |
+| **Ease of use** | ✅ Very easy                 | ❌ More complex                |
+| **Speed**       | ✅ Google's CDN is fast      | ⚠️ Depends on your hosting     |
+| **Privacy**     | ❌ Loads from Google servers | ✅ No third-party requests     |
+| **Control**     | ❌ Limited                   | ✅ Full control                |
+| **Cost**        | ✅ Free                      | ⚠️ Some fonts require purchase |
+| **Maintenance** | ✅ Google handles updates    | ❌ You handle updates          |
+
+**For beginners:** Start with Google Fonts. It's easy and fast.
+
+**For advanced projects:** Self-host if you need custom fonts or maximum control.
+
+---
+
+### **Practical Example: Complete Setup 💼**
+
+**Using Google Fonts for a blog:**
+
+**HTML:**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Blog</title>
+
+    <!-- Google Fonts: Merriweather for body, Playfair Display for headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <article>
+      <h1>Article Title</h1>
+      <p>Article content goes here.</p>
+    </article>
+  </body>
+</html>
+```
+
+**CSS:**
+
+```css
+body {
+  font-family: "Merriweather", serif;
+  font-weight: 400;
+  line-height: 1.8;
+  color: #333;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #000;
+}
+```
+
+**Result:** Professional typography with distinct heading and body fonts.
+
+---
+
+### **Key Takeaways 💡**
+
+1. **Google Fonts is easiest** - Great for beginners, free, and fast
+2. **Self-hosting gives control** - Use for custom fonts or privacy
+3. **Only load weights you need** - Each weight adds to page load time
+4. **Always include fallback fonts** - `font-family: 'Custom', sans-serif;`
+5. **Use `font-display: swap`** - Shows text immediately while loading
+6. **Limit to 1-2 fonts per project** - Too many fonts slow down your site
+7. **Test font loading** - Make sure fonts actually appear
+
+**The goal:** Beautiful typography without slowing down your website.
+
+---
+
+## **Quick Reference 📚**
+
+A condensed reference for quick lookups while working with CSS structure and organization.
+
+---
+
+### **File Organization Patterns**
+
+**Single file (small projects):**
+
+```
+project/
+├── index.html
+└── styles.css
+```
+
+**Multiple files (medium projects):**
+
+```
+project/
+├── index.html
+└── css/
+    ├── base.css
+    ├── layout.css
+    ├── components.css
+    └── pages.css
+```
+
+**Component-based (large projects):**
+
+```
+project/
+├── index.html
+└── css/
+    ├── base/
+    │   ├── variables.css
+    │   └── reset.css
+    ├── components/
+    │   ├── buttons.css
+    │   └── cards.css
+    └── main.css
+```
+
+---
+
+### **Importing Stylesheets**
+
+**Multiple `<link>` tags (HTML):**
+
+```html
+<head>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+</head>
+```
+
+**@import (CSS):**
+
+```css
+/* Must be at top of file */
+@import "base.css";
+@import "layout.css";
+@import "components.css";
+
+/* Your CSS below */
+```
+
+**@import with folders:**
+
+```css
+@import "base/variables.css";
+@import "base/reset.css";
+@import "components/buttons.css";
+```
+
+---
+
+### **Naming Conventions**
+
+**Kebab-case (always use this):**
+
+```css
+.product-card {
+}
+.navigation-menu {
+}
+.user-profile {
+}
+```
+
+**BEM syntax:**
+
+```css
+/* Block */
+.product-card {
+}
+
+/* Element */
+.product-card__title {
+}
+.product-card__image {
+}
+.product-card__button {
+}
+
+/* Modifier */
+.product-card--featured {
+}
+.product-card__button--primary {
+}
+```
+
+**HTML with BEM:**
+
+```html
+<div class="product-card product-card--featured">
+  <img class="product-card__image" src="..." />
+  <h3 class="product-card__title">Title</h3>
+  <button class="product-card__button product-card__button--primary">
+    Buy Now
+  </button>
+</div>
+```
+
+---
+
+### **CSS Variables**
+
+**Define in :root:**
+
+```css
+:root {
+  --color-primary: #3498db;
+  --color-secondary: #e74c3c;
+  --spacing-md: 16px;
+  --font-primary: Arial, sans-serif;
+}
+```
+
+**Use with var():**
+
+```css
+.button {
+  background-color: var(--color-primary);
+  padding: var(--spacing-md);
+  font-family: var(--font-primary);
+}
+```
+
+**With fallback:**
+
+```css
+.button {
+  background-color: var(--color-primary, blue);
+}
+```
+
+**Scoped variables (override):**
+
+```css
+:root {
+  --bg-color: white;
+  --text-color: black;
+}
+
+.dark-mode {
+  --bg-color: black;
+  --text-color: white;
+}
+```
+
+---
+
+### **Common Variable Patterns**
+
+**Colors:**
+
+```css
+:root {
+  --color-primary: #3498db;
+  --color-secondary: #e74c3c;
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-danger: #e74c3c;
+  --color-dark: #2c3e50;
+  --color-gray: #95a5a6;
+  --color-light: #ecf0f1;
+}
+```
+
+**Spacing scale:**
+
+```css
+:root {
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+}
+```
+
+**Typography:**
+
+```css
+:root {
+  --font-primary: Arial, sans-serif;
+  --font-secondary: Georgia, serif;
+  --font-mono: "Courier New", monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+}
+```
+
+---
+
+### **Comment Formats**
+
+**Section divider:**
+
+```css
+/* ==============================================
+   SECTION NAME
+   ============================================== */
+```
+
+**Subsection:**
+
+```css
+/* Components */
+```
+
+**Inline explanation:**
+
+```css
+.element {
+  property: value; /* Explains why this value is used */
+}
+```
+
+**Multi-line explanation:**
+
+```css
+/*
+  This is a longer explanation that spans
+  multiple lines. Use for complex decisions
+  or important context.
+*/
+```
+
+**TODO markers:**
+
+```css
+/* TODO: Add responsive styles */
+/* FIXME: This breaks on mobile */
+/* NOTE: Don't change without testing */
+```
+
+**Component documentation:**
+
+```css
+/*
+ * Component Name
+ * 
+ * Used on: Page names
+ * 
+ * Modifiers:
+ *   .component--modifier - Description
+ * 
+ * Example:
+ *   <div class="component">...</div>
+ */
+```
+
+---
+
+### **Google Fonts Setup**
+
+**HTML (link method):**
+
+```html
+<head>
+  <!-- Preconnect for speed -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Load font -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+```
+
+**CSS:**
+
+```css
+body {
+  font-family: "Roboto", sans-serif;
+}
+```
+
+**@import method:**
+
+```css
+/* At top of CSS file */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+```
+
+---
+
+### **Self-Hosted Fonts**
+
+**@font-face syntax:**
+
+```css
+@font-face {
+  font-family: "FontName";
+  src:
+    url("../fonts/FontName.woff2") format("woff2"),
+    url("../fonts/FontName.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+**Multiple weights:**
+
+```css
+/* Regular (400) */
+@font-face {
+  font-family: "FontName";
+  src: url("../fonts/FontName-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Bold (700) */
+@font-face {
+  font-family: "FontName";
+  src: url("../fonts/FontName-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+```
+
+**Use:**
+
+```css
+body {
+  font-family: "FontName", sans-serif;
+}
+
+strong {
+  font-weight: 700; /* Uses bold font file */
+}
+```
+
+---
+
+### **Useful Code Snippets**
+
+**CSS Reset:**
+
+```css
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
+
+**Container:**
+
+```css
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+```
+
+**Responsive image:**
+
+```css
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+**Hide element:**
+
+```css
+.hidden {
+  display: none;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+```
+
+**Center element:**
+
+```css
+.center {
+  margin: 0 auto;
+}
+```
+
+**Smooth transitions:**
+
+```css
+.element {
+  transition: all 0.3s ease;
+}
+```
+
+---
+
+### **DRY Principle Patterns**
+
+**Group selectors:**
+
+```css
+h1,
+h2,
+h3 {
+  font-family: Georgia, serif;
+  color: #2c3e50;
+}
+```
+
+**Base class + modifiers:**
+
+```css
+.button {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.button--primary {
+  background-color: blue;
+  color: white;
+}
+
+.button--secondary {
+  background-color: gray;
+  color: white;
+}
+```
+
+**Use variables for repeated values:**
+
+```css
+/* Don't repeat */
+.header {
+  background-color: #3498db;
+}
+.button {
+  background-color: #3498db;
+}
+.link {
+  color: #3498db;
+}
+
+/* Do this instead */
+:root {
+  --color-primary: #3498db;
+}
+
+.header {
+  background-color: var(--color-primary);
+}
+.button {
+  background-color: var(--color-primary);
+}
+.link {
+  color: var(--color-primary);
+}
+```
+
+---
+
+### **File Organization Decision Guide**
+
+| Project Size | Strategy                  | File Count |
+| ------------ | ------------------------- | ---------- |
+| 1-10 pages   | Single file               | 1          |
+| 10-30 pages  | Multiple files by purpose | 3-6        |
+| 30+ pages    | Component-based folders   | 10-30+     |
+
+---
+
+### **Import Order**
+
+**Always import in this order:**
+
+1. Variables (first - other files use them)
+2. Resets/base styles
+3. Typography
+4. Layout
+5. Components
+6. Pages (last - overrides if needed)
+
+**Example:**
+
+```css
+@import "base/variables.css";
+@import "base/reset.css";
+@import "base/typography.css";
+@import "layout/header.css";
+@import "layout/footer.css";
+@import "components/buttons.css";
+@import "components/cards.css";
+@import "pages/home.css";
+```
+
+---
+
+### **Common Mistakes to Avoid 🐞**
+
+1. ❌ Forgetting `--` prefix for variables → ✅ `--variable-name`
+2. ❌ Forgetting `var()` to use variables → ✅ `var(--variable-name)`
+3. ❌ @import not at top of file → ✅ @import must be first
+4. ❌ Using `//` for comments → ✅ Use `/* */`
+5. ❌ Forgetting fallback fonts → ✅ `'Custom', sans-serif`
+6. ❌ Loading too many font weights → ✅ Only load what you need
+7. ❌ Inconsistent naming → ✅ Pick one convention, stick with it
+8. ❌ No section comments in large files → ✅ Use dividers
+
+---
+
+### **Quick Checklist for New Projects ✅**
+
+**Before you start:**
+
+- [ ] Decide on file structure (single file vs multiple)
+- [ ] Choose naming convention (BEM or simple)
+- [ ] Set up variables for colors, spacing, fonts
+- [ ] Add CSS reset
+- [ ] Load custom fonts if needed
+
+**During development:**
+
+- [ ] Use comments to organize sections
+- [ ] Follow DRY principle (don't repeat values)
+- [ ] Keep files focused (one purpose per file)
+- [ ] Use consistent naming
+
+**Before launch:**
+
+- [ ] Remove unused CSS
+- [ ] Remove TODO/FIXME comments
+- [ ] Test font loading
+- [ ] Validate CSS (W3C validator)
+
+---
+
+### **Helpful Resources**
+
+**Documentation:**
+
+- [MDN CSS Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+- [CSS-Tricks](https://css-tricks.com)
+
+**Fonts:**
+
+- [Google Fonts](https://fonts.google.com)
+- [Font Squirrel](https://www.fontsquirrel.com)
+
+**Validation:**
+
+- [W3C CSS Validator](https://jigsaw.w3.org/css-validator/)
+
+**BEM Naming:**
+
+- [BEM Methodology](https://getbem.com)
