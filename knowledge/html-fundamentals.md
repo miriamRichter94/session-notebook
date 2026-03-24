@@ -500,49 +500,7 @@ HTML elements fall into two main categories based on how they display:
 
 **Common block elements:**
 
-```html
-<div>
-  ,
-  <p>,</p>
-  <h1>
-    -
-    <h6>
-      ,
-      <ul>
-        ,
-        <ol>
-          ,
-          <li>
-            ,
-            <section>
-              ,
-              <article>
-                ,
-                <header>
-                  ,
-                  <footer>
-                    ,
-                    <nav>
-                      ,
-                      <main>
-                        ,
-                        <aside>
-                          ,
-                          <form></form>
-                        </aside>
-                      </main>
-                    </nav>
-                  </footer>
-                </header>
-              </article>
-            </section>
-          </li>
-        </ol>
-      </ul>
-    </h6>
-  </h1>
-</div>
-```
+`<div>`, `<p>`, `<h1>`-`<h6>`, `<ul>`, `<ol>`, `<li>`, `<section>`, `<article>`, `<header>`, `<footer>`, `<nav>`, `<main>`, `<aside>`, `<form>`, `<table>`, `<blockquote>`, `<pre>`, `<hr />`, `<figure>`, `<details>`
 
 **Example:**
 
@@ -573,22 +531,7 @@ Both paragraphs take full width and stack vertically.
 
 **Common inline elements:**
 
-```html
-<span
-  >,
-  <a
-    >,
-    <strong
-      >,
-      <em
-        >, <img />,
-        <code
-          >,
-          <mark
-            >, <br />, <input />,
-            <button></button></mark></code></em></strong></a
-></span>
-```
+`<span>`, `<a>`, `<strong>`, `<em>`, `<img />`, `<code>`, `<mark>`, `<br />`, `<input />`, `<button>`, `<label>`, `<select>`, `<textarea>`, `<small>`, `<sub>`, `<sup>`, `<abbr>`, `<cite>`, `<kbd>`, `<time>`, `<q>`
 
 **Example:**
 
